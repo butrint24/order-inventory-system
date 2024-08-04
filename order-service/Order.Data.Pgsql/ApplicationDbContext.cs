@@ -22,6 +22,7 @@ public class ApplicationDbContext : DbContext
             .HasOne(x => x.CustomerDetails)
             .WithMany(o => o.Orders)        
             .HasForeignKey(x => x.CustomerId);
+
         
     }
 }

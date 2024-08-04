@@ -13,7 +13,7 @@ public static class RestModule
         services.AddSwaggerGen();
         
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
-    
+
         services.AddMediatR(Assembly.GetExecutingAssembly());
         
         return services;
