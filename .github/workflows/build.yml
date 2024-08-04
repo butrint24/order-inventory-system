@@ -19,13 +19,13 @@ jobs:
           dotnet-version: '8.x'  # Adjust the version to match your project
 
       - name: Restore dependencies
-        run: dotnet restore YourSolution.sln
+        run: dotnet restore Order.sln
 
       - name: Build
-        run: dotnet build YourSolution.sln --no-restore
+        run: dotnet build Order.sln --no-restore
 
       - name: Run tests
-        run: dotnet test YourSolution.sln --no-build --verbosity normal
+        run: dotnet test Order.sln --no-build --verbosity normal
 
   release:
     runs-on: ubuntu-latest
