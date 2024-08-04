@@ -1,0 +1,49 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    needs: build-and-test  # Ensure the build and test job has completed successfully
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.x'  # Adjust the version to match your project
+
+      - name: Install GitHub CLI
+        run: sudo apt-get install gh
+
+      - name: Create a version tag
+        id: tag
+        run: |
+          VERSION=$(date +'%Y%m%d%H%M%S')
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Commit version file
+        run: |
+          echo $VERSION > version.txt
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add version.txt
+          git commit -m "Add version file"
+          git tag -a "v$VERSION" -m "Release version $VERSION"
+
+      - name: Push changes
+        run: |
+          git push origin main
+          git push origin "v$VERSION"
+
+      - name: Create release
+        run: |
+          gh release create "v$VERSION" --notes "Release version $VERSION"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
