@@ -26,6 +26,38 @@ The system follows the Clean Architecture pattern, which ensures a maintainable 
   - **Order.Data.Contracts**: Defines the contracts related to data access.
   - **RabbitMQ Communication**: Handles messaging and integration with RabbitMQ.
 
+## Solution Structure
+
+The solution file `Order.sln` includes the following projects:
+
+1. **Order.Host**
+   - **Path**: `Order.Host\Order.Host.csproj`
+   - **Description**: The entry point of the application, typically containing the `Startup` class and the configuration for the ASP.NET Core application.
+
+2. **Order.Data.Contracts**
+   - **Path**: `Order.Data.Contracts\Order.Data.Contracts.csproj`
+   - **Description**: Contains data access interfaces and contracts that define the data layer's interactions with the rest of the application.
+
+3. **Order.Data.Pgsql**
+   - **Path**: `Order.Data.Pgsql\Order.Data.Pgsql.csproj`
+   - **Description**: Implements the data access layer using PostgreSQL. It includes the concrete implementations of the data access interfaces.
+
+4. **Order.Application**
+   - **Path**: `Order.Application\Order.Application.csproj`
+   - **Description**: Contains application services, business logic, and use cases. It interacts with the domain layer and provides functionality to the presentation layer.
+
+5. **Order.Application.Contracts**
+   - **Path**: `Order.Application.Contracts\Order.Application.Contracts.csproj`
+   - **Description**: Defines contracts for application services and use cases, providing a layer of abstraction between the application and the domain.
+
+6. **Order.Rest.AspNetCore**
+   - **Path**: `Order.Rest.AspNetCore\Order.Rest.AspNetCore.csproj`
+   - **Description**: The ASP.NET Core web API project that serves as the presentation layer for the application. It handles HTTP requests and responses.
+
+7. **Order.Rest.Contracts**
+   - **Path**: `Order.Rest.Contracts\Order.Rest.Contracts.csproj`
+   - **Description**: Contains contracts and models used for communication between the API and clients.
+
 ## Microservices
 
 ### Order Service
