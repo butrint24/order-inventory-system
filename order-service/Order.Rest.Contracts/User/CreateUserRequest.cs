@@ -10,6 +10,6 @@ public class CreateUserRequest
     [JsonPropertyName("lastName")]
     public string LastName { get; set; }
 
-    [JsonPropertyName("adress")]
+    [JsonPropertyName("address")]
     public string Address { get; set; }
 }
