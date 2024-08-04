@@ -1,4 +1,4 @@
-name: Release
+name: Build and Release
 
 on:
   push:
@@ -6,18 +6,40 @@ on:
       - main
 
 jobs:
-  release:
+  build:
     runs-on: ubuntu-latest
-    needs: build-and-test  # Ensure the build and test job has completed successfully
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup .NET
+      - name: Set up .NET
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.x'  # Adjust the version to match your project
+
+      - name: List files
+        run: ls -R # List files to debug the directory structure
+
+      - name: Restore dependencies
+        run: dotnet restore Order.sln
+        working-directory: order-service # Update this to the directory where your .sln file is located
+
+      - name: Build
+        run: dotnet build --no-restore Order.sln
+        working-directory: order-service # Ensure this path is correct
+
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
+        working-directory: order-service # Ensure this path is correct
+
+  release:
+    runs-on: ubuntu-latest
+    needs: build  # Ensure the build job has completed successfully
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Install GitHub CLI
         run: sudo apt-get install gh
@@ -38,22 +60,14 @@ jobs:
           git commit -m "Add version file"
           git tag -a "v$VERSION" -m "Release version $VERSION"
 
-      - name: List tags
-        working-directory: order-service
-        run: git tag
-
       - name: Push changes
         working-directory: order-service # Ensure this path is correct
         run: |
           git push origin main
           git push origin "v$VERSION"
 
-      - name: Check GitHub CLI Installation
-        run: gh --version
-
       - name: Create release
         run: |
-          echo "Creating release for tag v$VERSION"
           gh release create "v$VERSION" --notes "Release version $VERSION"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
