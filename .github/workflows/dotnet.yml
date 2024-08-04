@@ -1,25 +1,31 @@
-name: .NET
+name: .NET Build and Test
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v2
-      with:
-        dotnet-version: 5.0.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+        working-directory: ./Order.Host # Adjust this path if necessary
+
+      - name: Build
+        run: dotnet build --no-restore
+        working-directory: ./Order.Host # Adjust this path if necessary
+
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
+        working-directory: ./Order.Host # Adjust this path if necessary
