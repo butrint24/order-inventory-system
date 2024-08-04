@@ -38,14 +38,22 @@ jobs:
           git commit -m "Add version file"
           git tag -a "v$VERSION" -m "Release version $VERSION"
 
+      - name: List tags
+        working-directory: order-service
+        run: git tag
+
       - name: Push changes
         working-directory: order-service # Ensure this path is correct
         run: |
           git push origin main
           git push origin "v$VERSION"
 
+      - name: Check GitHub CLI Installation
+        run: gh --version
+
       - name: Create release
         run: |
+          echo "Creating release for tag v$VERSION"
           gh release create "v$VERSION" --notes "Release version $VERSION"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
