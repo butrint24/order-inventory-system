@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Order.Application.Contracts;
 using Order.Application.Contracts.Customer.CreateCustomer;
+using Order.Application.Contracts.Customer.DeleteCustomer;
 using Order.Application.Contracts.Customer.GetCustomerById;
 using Order.Application.Contracts.Customer.GetCustomers;
 using Order.Rest.Contracts.User.CreateUser;
@@ -59,5 +60,23 @@ public class UserController(IMediator mediator, IMapper mapper) : ControllerBase
         var response = mapper.Map<GetUserByIdResponse>(result.Value);
 
         return Ok(response);
+    }
+    
+    [HttpDelete("/deleteUser/{id}")]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.NoContent)]
+    public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
+    {
+        var command = new DeleteCustomer
+        {
+            CustomerId = id
+        };
+        
+        var result = await mediator.Send(command);
+
+        if (result.IsFailed)
+            return NotFound();
+
+        return NoContent();
     }
 }

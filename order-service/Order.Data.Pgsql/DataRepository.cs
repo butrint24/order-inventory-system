@@ -56,5 +56,12 @@ public class DataRepository : IDataRepository
         return await _dataContext.Customers.FindAsync(id);
     }
 
+    public async Task DeleteCustomerAsync(Customer customer)
+    {
+        _dataContext.Customers.Remove(customer);
+        
+        await _dataContext.SaveChangesAsync();
+    }
+    
     #endregion
 }
