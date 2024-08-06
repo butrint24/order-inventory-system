@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using AutoMapper;
-using FluentResults;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Order.Application.Contracts;
