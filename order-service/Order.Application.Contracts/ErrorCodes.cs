@@ -10,5 +10,9 @@ public enum ErrorCodes
     
     CUSTOMER_CREATION_FAILED,
     
+    CUSTOMER_ID_INVALID,
+    
+    CUSTOMER_NOT_FOUND,
+    
     CREATE_CUSTOMER_FAILED
 }
