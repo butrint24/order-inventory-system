@@ -1,7 +1,7 @@
-﻿using Order.Application.Abstractions;
-using Order.Application.Contracts.Customer;
-using FluentValidation;
+﻿using FluentValidation;
+using Order.Application.Abstractions;
 using Order.Application.Contracts;
+using Order.Application.Contracts.Customer.CreateCustomer;
 
 namespace Order.Application.Customer;
 

@@ -3,9 +3,9 @@ using FluentResults;
 using FluentValidation;
 using MediatR;
 using Order.Application.Contracts;
-using static FluentResults.Result;
-using Order.Application.Contracts.Customer;
+using Order.Application.Contracts.Customer.CreateCustomer;
 using Order.Data.Contracts;
+using static FluentResults.Result;
 
 namespace Order.Application.Customer;
 
@@ -32,7 +32,7 @@ public class CreateCustomerHandler : IRequestHandler<CreateCustomer, Result<Crea
         if (!validator.IsValid)
             return Fail(validator.Errors.FirstOrDefault()!.ErrorCode);
 
-        var mappedCustomer = _mapper.Map<Order.Data.Contracts.Customer>(request);
+        var mappedCustomer = _mapper.Map<Data.Contracts.Customer>(request);
 
         var customer = await _repository.CreateCustomerAsync(mappedCustomer);
 

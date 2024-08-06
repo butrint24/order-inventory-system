@@ -1,4 +1,4 @@
-﻿namespace Order.Application.Contracts.Customer;
+﻿namespace Order.Application.Contracts.Customer.CreateCustomer;
 
 public class CreateCustomerResponse
 {

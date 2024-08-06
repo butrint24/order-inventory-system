@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
-using Order.Application.Contracts.Customer;
-using Order.Rest.Contracts.User;
+using Order.Application.Contracts.Abstractions;
+using Order.Application.Contracts.Customer.CreateCustomer;
+using Order.Rest.Contracts.User.CreateUser;
+using Order.Rest.Contracts.User.GetUsers;
+using UserInfo = Order.Rest.Contracts.Abstractions.User;
 
 namespace Order.Rest.AspNetCore.Profiles;
 
@@ -14,5 +17,13 @@ public class MappingProfiles : Profile
 
         CreateMap<CreateCustomerResponse, CreateUserResponse>()
             .ForMember(src => src.Id, opts => opts.MapFrom(dest => dest.CustomerId));
+
+        CreateMap<Customer, UserInfo>()
+            .ForMember(src => src.Id, opts => opts.MapFrom(dest => dest.CustomerId))
+            .ForMember(src => src.FirstName, opts => opts.MapFrom(dest => dest.GivenName))
+            .ForMember(src => src.LastName, opts => opts.MapFrom(dest => dest.FamilyName));
+
+        CreateMap<IList<Customer>, GetUsersResponse>()
+            .ForMember(dest => dest.Users, opt => opt.MapFrom(src => src));
     }
 }

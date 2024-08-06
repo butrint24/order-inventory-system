@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Order.Rest.Contracts.User;
+namespace Order.Rest.Contracts.User.CreateUser;
 
 public class CreateUserResponse
 {
