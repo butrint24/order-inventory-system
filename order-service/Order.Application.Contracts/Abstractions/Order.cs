@@ -1,4 +1,4 @@
-﻿namespace Order.Data.Contracts;
+﻿namespace Order.Application.Contracts.Abstractions;
 
 public class Order
 {

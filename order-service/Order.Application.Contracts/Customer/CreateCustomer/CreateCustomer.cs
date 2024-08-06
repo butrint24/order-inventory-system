@@ -2,7 +2,7 @@
 using MediatR;
 using Order.Application.Contracts.Abstractions;
 
-namespace Order.Application.Contracts.Customer;
+namespace Order.Application.Contracts.Customer.CreateCustomer;
 
 public class CreateCustomer : ValidatorBase, IRequest<Result<CreateCustomerResponse>>
 {

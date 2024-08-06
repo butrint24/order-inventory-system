@@ -2,35 +2,34 @@
 using Order.Data.Pgsql;
 using Order.Rest.AspNetCore;
 
-namespace Order.Host
+namespace Order.Host;
+
+public class Startup
 {
-    public class Startup
+    private IConfiguration Configuration { get; }
+
+    public Startup(IConfiguration configuration)
     {
-        private IConfiguration Configuration { get; }
+        Configuration = configuration;
+    }
 
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
-        // Register services
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddPgsqlModule(Configuration);
-            services.AddApplicationModule();
-            services.AddRestModule();
-        }
+    // Register services
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.AddPgsqlModule(Configuration);
+        services.AddApplicationModule();
+        services.AddRestModule();
+    }
         
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+        app.UseRouting();
+        app.UseAuthorization();
+        app.UseEndpoints(endpoints =>
         {
-            app.UseSwagger();
-            app.UseSwaggerUI();
-            app.UseRouting();
-            app.UseAuthorization();
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
-        }
+            endpoints.MapControllers();
+        });
     }
 }

@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Order.Application.Contracts.Customer;
-using Order.Rest.Contracts.User;
+using Order.Application.Contracts.Customer.CreateCustomer;
+using Order.Application.Contracts.Customer.GetCustomers;
+using Order.Rest.Contracts.User.CreateUser;
+using Order.Rest.Contracts.User.GetUsers;
 
 namespace Order.Rest.AspNetCore;
 
@@ -11,7 +13,7 @@ namespace Order.Rest.AspNetCore;
 public class UserController(IMediator mediator, IMapper mapper) : ControllerBase
 {
     [HttpPost("/createUser")]
-    public async Task<ActionResult<CreateUserResponse>> CreatePersonAsync(CreateUserRequest request)
+    public async Task<ActionResult<CreateUserResponse>> CreateUserAsync(CreateUserRequest request)
     {
         var command = mapper.Map<CreateCustomer>(request);
         
@@ -22,6 +24,16 @@ public class UserController(IMediator mediator, IMapper mapper) : ControllerBase
 
         var response = mapper.Map<CreateUserResponse>(result.Value);
 
+        return Ok(response);
+    }
+    
+    [HttpGet("/getUsers")]
+    public async Task<ActionResult<GetUsersResponse>> GetUsersAsync()
+    {
+        var result = await mediator.Send(new GetCustomers());
+
+        var response = mapper.Map<GetUsersResponse>(result.Value);
+        
         return Ok(response);
     }
 }
