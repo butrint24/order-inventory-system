@@ -3,20 +3,21 @@ using FluentResults;
 using FluentValidation;
 using MediatR;
 using Order.Application.Contracts;
+using Order.Application.Contracts.Customer.DeleteCustomer;
 using Order.Application.Contracts.Customer.GetCustomerById;
 using Order.Data.Contracts;
 using static FluentResults.Result;
 
 namespace Order.Application.Customer;
 
-public class GetCustomerByIdHandler : IRequestHandler<GetCustomerById, Result<GetCustomerByIdResponse>>
+public class DeleteCustomerHandler : IRequestHandler<DeleteCustomer, Result<DeleteCustomerResponse>>
 {
-    private readonly IValidator<GetCustomerById> _validator;
+    private readonly IValidator<DeleteCustomer> _validator;
     private readonly IDataRepository _repository;
     private readonly IMapper _mapper;
 
-    public GetCustomerByIdHandler(
-        IValidator<GetCustomerById> validator,
+    public DeleteCustomerHandler(
+        IValidator<DeleteCustomer> validator,
         IDataRepository repository,
         IMapper mapper)
     {
@@ -25,7 +26,7 @@ public class GetCustomerByIdHandler : IRequestHandler<GetCustomerById, Result<Ge
         _mapper = mapper;
     }
 
-    public async Task<Result<GetCustomerByIdResponse>> Handle(GetCustomerById request, CancellationToken cancellationToken)
+    public async Task<Result<DeleteCustomerResponse>> Handle(DeleteCustomer request, CancellationToken cancellationToken)
     {
         var validator = await _validator.ValidateAsync(request, cancellationToken);
 
@@ -34,12 +35,15 @@ public class GetCustomerByIdHandler : IRequestHandler<GetCustomerById, Result<Ge
         
         var entity = _mapper.Map<Data.Contracts.Customer>(request);
 
-        var customer = await _repository.GetCustomerById(entity.CustomerId);
-        
-        var result = _mapper.Map<GetCustomerByIdResponse>(customer);
+        var getCustomer = await _repository.GetCustomerById(entity.CustomerId);
 
-        return result == null 
-            ? new Result().WithError(ErrorCodes.CUSTOMER_NOT_FOUND.ToString()) 
-            : Ok(result);
+        if (getCustomer == null)
+            return new Result().WithError(ErrorCodes.CUSTOMER_NOT_FOUND.ToString());
+
+        await _repository.DeleteCustomerAsync(getCustomer);
+
+        var result = _mapper.Map<DeleteCustomerResponse>(getCustomer);
+        
+        return Ok(result);
     }
 }

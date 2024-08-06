@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Order.Application.Contracts.Customer.CreateCustomer;
+using Order.Application.Contracts.Customer.DeleteCustomer;
 using Order.Application.Contracts.Customer.GetCustomerById;
 
 namespace Order.Application;
@@ -18,6 +19,11 @@ public class MappingRegister : Profile
         CreateMap<GetCustomerById, Data.Contracts.Customer>();
 
         CreateMap<Data.Contracts.Customer, GetCustomerByIdResponse>()
+            .ReverseMap();
+        
+        CreateMap<DeleteCustomer, Data.Contracts.Customer>();
+
+        CreateMap<Data.Contracts.Customer, DeleteCustomerResponse>()
             .ReverseMap();
     }
 }

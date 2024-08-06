@@ -20,5 +20,8 @@ public interface IDataRepository
 
     Task<Customer> GetCustomerById(Guid id);
 
+    Task DeleteCustomerAsync(Customer customer);
+
     #endregion
+
 }
