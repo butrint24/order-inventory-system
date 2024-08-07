@@ -9,6 +9,8 @@ public interface IDataRepository
     Task<List<Order>> GetAllOrders();
 
     Task<Order> GetOrderById(Guid id);
+    
+    Task DeleteOrderAsync(Order order);
 
     #endregion
 
@@ -23,5 +25,4 @@ public interface IDataRepository
     Task DeleteCustomerAsync(Customer customer);
 
     #endregion
-
 }
