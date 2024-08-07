@@ -67,5 +67,12 @@ public class DataRepository : IDataRepository
         await _dataContext.SaveChangesAsync();
     }
     
+    public async Task<List<Contracts.Order>> GetCustomerOrders(Guid id)
+    {
+        var customerOrders = await _dataContext.Orders.Where(x => x.CustomerId == id).ToListAsync();
+
+        return customerOrders;
+    }
+    
     #endregion
 }
