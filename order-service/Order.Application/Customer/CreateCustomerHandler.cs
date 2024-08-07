@@ -37,7 +37,7 @@ public class CreateCustomerHandler : IRequestHandler<CreateCustomer, Result<Crea
         var customer = await _repository.CreateCustomerAsync(mappedCustomer);
 
         if (customer.ToResult().IsFailed)
-            return new Result().WithError(ErrorCodes.CUSTOMER_CREATION_FAILED.ToString());
+            return new Result().WithError(ErrorCodes.CREATE_CUSTOMER_FAILED.ToString());
 
         var result = _mapper.Map<CreateCustomerResponse>(customer);
 

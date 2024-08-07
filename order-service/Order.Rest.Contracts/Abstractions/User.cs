@@ -17,5 +17,5 @@ public class User
     public string Address { get; set; }
 
     [JsonPropertyName("orderDetail")]
-    public List<OrderDetail> OrderDetail { get; set; } = [];
+    public List<PurchaseDetail> OrderDetail { get; set; } = [];
 }

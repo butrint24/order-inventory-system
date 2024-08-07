@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Text.Json.Serialization;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,7 +9,11 @@ public static class RestModule
 {
     public static IServiceCollection AddRestModule(this IServiceCollection services)
     {
-        services.AddControllers();
+        services.AddControllers().AddJsonOptions(options => 
+        { 
+            options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()); 
+        });
+        
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
         

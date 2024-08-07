@@ -7,10 +7,7 @@ public class DataRepository : IDataRepository
 {
     private readonly ApplicationDbContext _dataContext;
 
-    public DataRepository(ApplicationDbContext dataContext)
-    {
-        _dataContext = dataContext;
-    }
+    public DataRepository(ApplicationDbContext dataContext) => _dataContext = dataContext;
     
     #region Order
 
@@ -31,6 +28,13 @@ public class DataRepository : IDataRepository
     public async Task<Contracts.Order> GetOrderById(Guid id)
     {
         return await _dataContext.Orders.FindAsync(id);
+    }
+    
+    public async Task DeleteOrderAsync(Contracts.Order order)
+    {
+        _dataContext.Orders.Remove(order);
+        
+        await _dataContext.SaveChangesAsync();
     }
 
     #endregion
