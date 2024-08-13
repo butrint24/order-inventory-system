@@ -3,6 +3,7 @@ using Order.Application.Contracts.Customer.CreateCustomer;
 using Order.Application.Contracts.Customer.DeleteCustomer;
 using Order.Application.Contracts.Customer.GetCustomerById;
 using Order.Application.Contracts.Order.CreateOrder;
+using Order.Application.Contracts.Order.DeleteOrder;
 using Order.Application.Contracts.Order.GetOrderById;
 
 namespace Order.Application;
@@ -45,6 +46,11 @@ public class MappingRegister : Profile
         CreateMap<GetOrderById, Data.Contracts.Order>();
 
         CreateMap<Data.Contracts.Order, GetOrderByIdResponse>()
+            .ReverseMap();
+        
+        CreateMap<DeleteOrder, Data.Contracts.Order>();
+
+        CreateMap<Data.Contracts.Order, DeleteOrderResponse>()
             .ReverseMap();
 
         #endregion
