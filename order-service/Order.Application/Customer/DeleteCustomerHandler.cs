@@ -4,7 +4,6 @@ using FluentValidation;
 using MediatR;
 using Order.Application.Contracts;
 using Order.Application.Contracts.Customer.DeleteCustomer;
-using Order.Application.Contracts.Customer.GetCustomerById;
 using Order.Data.Contracts;
 using static FluentResults.Result;
 
