@@ -17,4 +17,8 @@ public enum ErrorCodes
     ORDER_DETAILS_INVALID,
     
     ORDER_CREATION_FAILED,
+    
+    ORDER_ID_INVALID,
+    
+    ORDER_NOT_FOUND,
 }

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Order.Rest.Contracts.Purchase.GetPurchases;
+namespace Order.Rest.Contracts.Purchase.Common;
 
 public class UserInfo
 {
