@@ -22,7 +22,11 @@ public class ApplicationDbContext : DbContext
             .HasOne(x => x.CustomerDetails)
             .WithMany(o => o.Orders)        
             .HasForeignKey(x => x.CustomerId);
-
         
+        modelBuilder.Entity<Contracts.Order>()
+            .Property(o => o.Status)
+            .HasConversion(
+                v => v.ToString(),
+                v => (OrderStatus)Enum.Parse(typeof(OrderStatus), v));
     }
 }
