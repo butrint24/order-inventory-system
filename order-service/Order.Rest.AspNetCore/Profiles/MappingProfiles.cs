@@ -3,8 +3,10 @@ using Order.Application.Contracts.Abstractions;
 using Order.Application.Contracts.Customer.CreateCustomer;
 using Order.Application.Contracts.Customer.GetCustomerById;
 using Order.Application.Contracts.Order.CreateOrder;
+using Order.Application.Contracts.Order.GetOrderById;
 using Order.Rest.Contracts.Abstractions;
 using Order.Rest.Contracts.Purchase.CreatePurchase;
+using Order.Rest.Contracts.Purchase.GetPurchaseByIdResponse;
 using Order.Rest.Contracts.Purchase.GetPurchases;
 using Order.Rest.Contracts.User.CreateUser;
 using Order.Rest.Contracts.User.GetUserById;
@@ -70,8 +72,7 @@ public class MappingProfiles : Profile
                     });
                 }
             });
-
-
+        
         #endregion
 
         #region Purchase
@@ -85,14 +86,21 @@ public class MappingProfiles : Profile
             .ForMember(src => src.Id, opts => opts.MapFrom(dest => dest.OrderId));
         
         CreateMap<ApplicationContractsOrder, Order.Rest.Contracts.Purchase.GetPurchases.PurchaseDetail>()
-            .ForMember(dest => dest.Id, opts => opts.MapFrom(src => src.CustomerId))
+            .ForMember(dest => dest.Id, opts => opts.MapFrom(src => src.OrderId))
             .ForPath(dest => dest.UserInfo.FirstName, opts => opts.MapFrom(src => src.CustomerDetails.GivenName))
             .ForPath(dest => dest.UserInfo.LastName, opts => opts.MapFrom(src => src.CustomerDetails.FamilyName))
             .ForPath(dest => dest.UserInfo.Address, opts => opts.MapFrom(src => src.CustomerDetails.Address));
 
         CreateMap<IList<ApplicationContractsOrder>, GetPurchasesResponse>()
             .ForMember(dest => dest.Purchases, opt => opt.MapFrom(src => src));
-        
+
+        CreateMap<GetOrderByIdResponse, GetPurchaseByIdResponse>()
+            .ForMember(src => src.Id, opts => opts.MapFrom(dest => dest.OrderId))
+            .ForPath(src => src.UserInfo.FirstName, opts => opts.MapFrom(dest => dest.CustomerDetails.GivenName))
+            .ForPath(src => src.UserInfo.LastName, opts => opts.MapFrom(dest => dest.CustomerDetails.FamilyName))
+            .ForPath(src => src.UserInfo.Address, opts => opts.MapFrom(dest => dest.CustomerDetails.Address));
+
         #endregion
+
     }
 }

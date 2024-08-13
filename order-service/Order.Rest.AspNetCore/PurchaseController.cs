@@ -1,15 +1,20 @@
-﻿using AutoMapper;
+﻿using System.Net;
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Order.Application.Contracts;
 using Order.Application.Contracts.Order.CreateOrder;
+using Order.Application.Contracts.Order.GetOrderById;
 using Order.Application.Contracts.Order.GetOrders;
 using Order.Rest.Contracts.Purchase.CreatePurchase;
+using Order.Rest.Contracts.Purchase.GetPurchaseByIdResponse;
 using Order.Rest.Contracts.Purchase.GetPurchases;
+using Order.Rest.Contracts.User.GetUserById;
 
 namespace Order.Rest.AspNetCore;
 
 [ApiController]
-[Route("api/v1")]
+[Route("[controller]")]
 public class PurchaseController(IMediator mediator, IMapper mapper) : ControllerBase
 {
     [HttpPost("/createPurchase")]
@@ -34,6 +39,26 @@ public class PurchaseController(IMediator mediator, IMapper mapper) : Controller
 
         var response = mapper.Map<GetPurchasesResponse>(result.Value);
         
+        return Ok(response);
+    }
+    
+    [HttpGet("/getPurchase/{id}")]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    public async Task<ActionResult<GetPurchasesResponse>> GetPurchaseByIdAsync([FromRoute] Guid id)
+    {
+        var command = new GetOrderById
+        {
+            OrderId = id
+        };
+        
+        var result = await mediator.Send(command);
+
+        if (result.IsFailed && result.HasError(x => x.Message == ErrorCodes.ORDER_NOT_FOUND.ToString()))
+            return NotFound();
+
+        var response = mapper.Map<GetPurchaseByIdResponse>(result.Value);
+
         return Ok(response);
     }
 }
