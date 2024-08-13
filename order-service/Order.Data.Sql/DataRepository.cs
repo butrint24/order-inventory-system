@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Order.Data.Contracts;
 
-namespace Order.Data.Pgsql;
+namespace Order.Data.Sql;
 
 public class DataRepository : IDataRepository
 {
@@ -37,6 +37,13 @@ public class DataRepository : IDataRepository
         await _dataContext.SaveChangesAsync();
     }
 
+    public async Task<Customer> GetCustomerDetails(Guid id)
+    {
+        var customerDetails = await _dataContext.Customers.Where(x => x.CustomerId == id).FirstAsync();
+
+        return customerDetails;
+    }
+    
     #endregion
 
     #region Customer

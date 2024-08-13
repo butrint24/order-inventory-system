@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order.Host", "Order.Host\Or
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order.Data.Contracts", "Order.Data.Contracts\Order.Data.Contracts.csproj", "{B21928F4-3DF6-4A0D-B53B-0E9FDE492AF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order.Data.Pgsql", "Order.Data.Pgsql\Order.Data.Pgsql.csproj", "{DB371D3E-65B9-4FE8-95FA-38BF40F0D88B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order.Data.Sql", "Order.Data.Sql\Order.Data.Sql.csproj", "{DB371D3E-65B9-4FE8-95FA-38BF40F0D88B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order.Application", "Order.Application\Order.Application.csproj", "{2648BBDF-2A3D-4014-A324-2F3ADB5B41F1}"
 EndProject

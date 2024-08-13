@@ -2,7 +2,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Order.Application.Contracts.Order.CreateOrder;
-using Order.Rest.Contracts.Product;
+using Order.Application.Contracts.Order.GetOrders;
+using Order.Rest.Contracts.Purchase.CreatePurchase;
+using Order.Rest.Contracts.Purchase.GetPurchases;
 
 namespace Order.Rest.AspNetCore;
 
@@ -22,6 +24,16 @@ public class PurchaseController(IMediator mediator, IMapper mapper) : Controller
 
         var response = mapper.Map<CreatePurchaseResponse>(result.Value);
 
+        return Ok(response);
+    }
+    
+    [HttpGet("/getPurchases")]
+    public async Task<ActionResult<GetPurchasesResponse>> GetUsersAsync()
+    {
+        var result = await mediator.Send(new GetOrders());
+
+        var response = mapper.Map<GetPurchasesResponse>(result.Value);
+        
         return Ok(response);
     }
 }

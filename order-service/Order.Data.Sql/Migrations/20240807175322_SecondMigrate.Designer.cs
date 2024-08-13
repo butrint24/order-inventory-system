@@ -5,15 +5,15 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Order.Data.Pgsql;
+using Order.Data.Sql;
 
 #nullable disable
 
-namespace Order.Data.Pgsql.Migrations
+namespace Order.Data.Sql.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240806161645_Initial")]
-    partial class Initial
+    [Migration("20240807175322_SecondMigrate")]
+    partial class SecondMigrate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -63,6 +63,7 @@ namespace Order.Data.Pgsql.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Status")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("OrderId");

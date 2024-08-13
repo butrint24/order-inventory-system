@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Order.Data.Pgsql.Migrations
+namespace Order.Data.Sql.Migrations
 {
     public partial class SecondMigrate : Migration
     {
