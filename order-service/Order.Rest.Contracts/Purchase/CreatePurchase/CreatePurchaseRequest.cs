@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using Order.Rest.Contracts.Abstractions;
 
-namespace Order.Rest.Contracts.Product;
+namespace Order.Rest.Contracts.Purchase.CreatePurchase;
 
 public class CreatePurchaseRequest : PurchaseDetail
 {

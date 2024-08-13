@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Order.Rest.Contracts.Product;
+namespace Order.Rest.Contracts.Purchase.CreatePurchase;
 
 public class CreatePurchaseResponse
 {

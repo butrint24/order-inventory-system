@@ -1,5 +1,5 @@
 ﻿using Order.Application;
-using Order.Data.Pgsql;
+using Order.Data.Sql;
 using Order.Rest.AspNetCore;
 
 namespace Order.Host;
@@ -16,7 +16,7 @@ public class Startup
     // Register services
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddPgsqlModule(Configuration);
+        services.AddSqlModule(Configuration);
         services.AddApplicationModule();
         services.AddRestModule();
     }

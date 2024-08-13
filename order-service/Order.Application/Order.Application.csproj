@@ -8,7 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Order.Application.Contracts\Order.Application.Contracts.csproj" />
-      <ProjectReference Include="..\Order.Data.Pgsql\Order.Data.Pgsql.csproj" />
+      <ProjectReference Include="..\Order.Data.Sql\Order.Data.Sql.csproj" />
     </ItemGroup>
 
     <ItemGroup>

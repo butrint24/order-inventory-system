@@ -2,6 +2,7 @@
 using System.Text.Json.Serialization;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using Order.Rest.AspNetCore.Profiles;
 
 namespace Order.Rest.AspNetCore;
 
@@ -15,11 +16,15 @@ public static class RestModule
         });
         
         services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen();
-        
-        services.AddAutoMapper(Assembly.GetExecutingAssembly());
+        services.AddSwaggerGen(c =>
+        {
+            c.CustomSchemaIds(type => type.ToString());
+        });
 
-        services.AddMediatR(Assembly.GetExecutingAssembly());
+        
+        services.AddAutoMapper(typeof(MappingProfiles).Assembly);
+
+        services.AddMediatR(typeof(Mediator).Assembly);;
         
         return services;
     }

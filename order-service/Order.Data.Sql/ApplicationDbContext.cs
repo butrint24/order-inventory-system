@@ -2,7 +2,7 @@
 using Order.Data.Contracts;
 using OrderModel = Order.Data.Contracts.Order;
 
-namespace Order.Data.Pgsql;
+namespace Order.Data.Sql;
 
 public class ApplicationDbContext : DbContext
 {
