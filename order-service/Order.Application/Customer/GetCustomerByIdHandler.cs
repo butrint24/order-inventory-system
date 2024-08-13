@@ -31,11 +31,23 @@ public class GetCustomerByIdHandler : IRequestHandler<GetCustomerById, Result<Ge
 
         if (!validator.IsValid)
             return Fail(validator.Errors.FirstOrDefault()!.ErrorCode);
-        
+
         var entity = _mapper.Map<Data.Contracts.Customer>(request);
 
         var customer = await _repository.GetCustomerById(entity.CustomerId);
-        
+
+        if (customer == null)
+            return new Result().WithError(ErrorCodes.CUSTOMER_NOT_FOUND.ToString());
+
+        var customerOrders = await _repository.GetCustomerOrders(customer.CustomerId);
+
+        var ordersDictionary = customerOrders
+            .Where(order => order.CustomerId == customer.CustomerId)
+            .DistinctBy(order => order.OrderId)
+            .ToDictionary(order => order.OrderId);
+
+        customer.Orders = ordersDictionary.Values.ToList();
+
         var result = _mapper.Map<GetCustomerByIdResponse>(customer);
 
         return result == null 

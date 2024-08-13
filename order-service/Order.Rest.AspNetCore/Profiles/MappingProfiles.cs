@@ -3,6 +3,7 @@ using Order.Application.Contracts.Abstractions;
 using Order.Application.Contracts.Customer.CreateCustomer;
 using Order.Application.Contracts.Customer.GetCustomerById;
 using Order.Application.Contracts.Order.CreateOrder;
+using Order.Rest.Contracts.Abstractions;
 using Order.Rest.Contracts.Product;
 using Order.Rest.Contracts.User.CreateUser;
 using Order.Rest.Contracts.User.GetUserById;
@@ -15,7 +16,6 @@ public class MappingProfiles : Profile
 {
     public MappingProfiles()
     {
-
         #region User
 
         CreateMap<CreateUserRequest, CreateCustomer>()
@@ -25,10 +25,26 @@ public class MappingProfiles : Profile
         CreateMap<CreateCustomerResponse, CreateUserResponse>()
             .ForMember(src => src.Id, opts => opts.MapFrom(dest => dest.CustomerId));
 
+        CreateMap<OrderStatus, PurchaseStatus>();
+
         CreateMap<Customer, UserInfo>()
             .ForMember(src => src.Id, opts => opts.MapFrom(dest => dest.CustomerId))
             .ForMember(src => src.FirstName, opts => opts.MapFrom(dest => dest.GivenName))
-            .ForMember(src => src.LastName, opts => opts.MapFrom(dest => dest.FamilyName));
+            .ForMember(src => src.LastName, opts => opts.MapFrom(dest => dest.FamilyName))
+            .AfterMap((src, dest) =>
+            {
+                foreach (var @event in src.Orders)
+                {
+                    dest.OrderDetail.Add(new PurchaseDetail
+                    {
+                        Id = @event.OrderId,
+                        Details = @event.Details,
+                        Price = @event.Price,
+                        Status = (PurchaseStatus)@event.Status,
+                        Quantity = @event.Quantity
+                    });
+                }
+            });
 
         CreateMap<IList<Customer>, GetUsersResponse>()
             .ForMember(dest => dest.Users, opt => opt.MapFrom(src => src));
@@ -36,7 +52,21 @@ public class MappingProfiles : Profile
         CreateMap<GetCustomerByIdResponse, GetUserByIdResponse>()
             .ForMember(src => src.Id, opts => opts.MapFrom(dest => dest.CustomerId))
             .ForMember(src => src.FirstName, opts => opts.MapFrom(dest => dest.GivenName))
-            .ForMember(src => src.LastName, opts => opts.MapFrom(dest => dest.FamilyName));
+            .ForMember(src => src.LastName, opts => opts.MapFrom(dest => dest.FamilyName))
+            .AfterMap((src, dest) =>
+            {
+                foreach (var @event in src.Orders)
+                {
+                    dest.OrderDetail.Add(new PurchaseDetail
+                    {
+                        Id = @event.OrderId,
+                        Details = @event.Details,
+                        Price = @event.Price,
+                        Status = (PurchaseStatus)@event.Status,
+                        Quantity = @event.Quantity
+                    });
+                }
+            });
 
 
         #endregion

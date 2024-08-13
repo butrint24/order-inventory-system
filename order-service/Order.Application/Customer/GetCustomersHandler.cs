@@ -24,7 +24,26 @@ public class GetCustomersHandler : IRequestHandler<GetCustomers, Result<IList<Co
     {
         var getCustomers = await _repository.GetAllCustomers();
 
+        var customerOrders = new Dictionary<Guid, List<Contracts.Abstractions.Order>>();
+        
+        foreach (var customer in getCustomers)
+        {
+            var order = await _repository.GetCustomerOrders(customer.CustomerId);
+            
+            var mappedOrders = _mapper.Map<IEnumerable<Contracts.Abstractions.Order>>(order);
+            
+            customerOrders[customer.CustomerId] = mappedOrders.ToList();
+        }
+        
         var result = _mapper.Map<IList<Contracts.Abstractions.Customer>>(getCustomers);
+        
+        foreach (var customer in result)
+        {
+            if (customerOrders.TryGetValue(customer.CustomerId, out var orders))
+            {
+                customer.Orders = orders;
+            }
+        }
         
         return Ok(result);
     }

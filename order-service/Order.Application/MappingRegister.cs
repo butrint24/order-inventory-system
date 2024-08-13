@@ -39,6 +39,9 @@ public class MappingRegister : Profile
         CreateMap<Data.Contracts.Order, CreateOrderResponse>()
             .ReverseMap();
 
+        CreateMap<Data.Contracts.Order, Application.Contracts.Abstractions.Order>();
+
         #endregion
+
     }
 }

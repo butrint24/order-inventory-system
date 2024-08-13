@@ -24,5 +24,8 @@ public interface IDataRepository
 
     Task DeleteCustomerAsync(Customer customer);
 
+    Task<List<Order>> GetCustomerOrders(Guid id);
+
     #endregion
+
 }
