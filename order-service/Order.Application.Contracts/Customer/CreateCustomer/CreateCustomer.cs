@@ -6,8 +6,6 @@ namespace Order.Application.Contracts.Customer.CreateCustomer;
 
 public class CreateCustomer : ValidatorBase, IRequest<Result<CreateCustomerResponse>>
 {
-    //public Guid Id { get; set; }
-
     public string GivenName { get; set; }
 
     public string FamilyName { get; set; }
