@@ -1,6 +1,10 @@
-﻿using AutoMapper;
+﻿using System.Net;
+using AutoMapper;
+using Inventory.Application.Contracts;
 using Inventory.Application.Contracts.CreateProduct;
+using Inventory.Application.Contracts.GetProductById;
 using Inventory.Rest.Contracts.CreateItem;
+using Inventory.Rest.Contracts.GetItemById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,7 +15,7 @@ namespace Inventory.Rest.AspNetCore;
 public class ItemController(IMediator mediator, IMapper mapper) : ControllerBase
 {
     [HttpPost("/createItem")]
-    public async Task<ActionResult<CreateItemResponse>> CreateUserAsync(CreateItemRequest request)
+    public async Task<ActionResult<CreateItemResponse>> CreateItemAsync(CreateItemRequest request)
     {
         var command = mapper.Map<CreateProduct>(request);
         
@@ -21,6 +25,26 @@ public class ItemController(IMediator mediator, IMapper mapper) : ControllerBase
             return BadRequest();
 
         var response = mapper.Map<CreateItemResponse>(result.Value);
+
+        return Ok(response);
+    }
+    
+    [HttpGet("/getItem/{id}")]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    public async Task<ActionResult<GetItemByIdResponse>> GetItemsByIdAsync([FromRoute] Guid id)
+    {
+        var command = new GetProductById
+        {
+            ProductId = id
+        };
+        
+        var result = await mediator.Send(command);
+
+        if (result.IsFailed && result.HasError(x => x.Message == ErrorCodes.PRODUCT_NOT_FOUND.ToString()))
+            return NotFound();
+
+        var response = mapper.Map<GetItemByIdResponse>(result.Value);
 
         return Ok(response);
     }

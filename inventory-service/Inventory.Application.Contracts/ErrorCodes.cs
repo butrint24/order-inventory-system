@@ -9,4 +9,8 @@ public enum ErrorCodes
    INVALID_PRICE,
    
    CREATE_PRODUCT_FAILED,
+   
+   PRODUCT_ID_INVALID,
+   
+   PRODUCT_NOT_FOUND,
 }
