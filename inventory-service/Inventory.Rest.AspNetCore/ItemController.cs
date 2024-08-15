@@ -2,6 +2,7 @@
 using AutoMapper;
 using Inventory.Application.Contracts;
 using Inventory.Application.Contracts.CreateProduct;
+using Inventory.Application.Contracts.DeleteProduct;
 using Inventory.Application.Contracts.GetProductById;
 using Inventory.Application.Contracts.GetProducts;
 using Inventory.Application.Contracts.UpdateProduct;
@@ -84,5 +85,23 @@ public class ItemController(IMediator mediator, IMapper mapper) : ControllerBase
         var response = mapper.Map<UpdateItemResponse>(result.Value);
 
         return Ok(response);
+    }
+    
+    [HttpDelete("/deleteItem/{id}")]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.NoContent)]
+    public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
+    {
+        var command = new DeleteProduct
+        {
+            ProductId = id
+        };
+        
+        var result = await mediator.Send(command);
+
+        if (result.IsFailed)
+            return NotFound();
+
+        return NoContent();
     }
 }
