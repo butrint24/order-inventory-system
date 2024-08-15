@@ -13,6 +13,8 @@ public class MappingRegister : Profile
         CreateMap<Data.Contracts.Product, CreateProductResponse>()
             .ReverseMap();
         
+        CreateMap<Data.Contracts.Product, Contracts.Abstractions.Product>();
+        
         CreateMap<GetProductById, Data.Contracts.Product>();
 
         CreateMap<Data.Contracts.Product, GetProductByIdResponse>()

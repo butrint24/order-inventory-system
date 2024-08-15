@@ -3,8 +3,10 @@ using AutoMapper;
 using Inventory.Application.Contracts;
 using Inventory.Application.Contracts.CreateProduct;
 using Inventory.Application.Contracts.GetProductById;
+using Inventory.Application.Contracts.GetProducts;
 using Inventory.Rest.Contracts.CreateItem;
 using Inventory.Rest.Contracts.GetItemById;
+using Inventory.Rest.Contracts.GetItems;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,6 +28,16 @@ public class ItemController(IMediator mediator, IMapper mapper) : ControllerBase
 
         var response = mapper.Map<CreateItemResponse>(result.Value);
 
+        return Ok(response);
+    }
+    
+    [HttpGet("/getItems")]
+    public async Task<ActionResult<GetItemsResponse>> GetItemsAsync()
+    {
+        var result = await mediator.Send(new GetProducts());
+
+        var response = mapper.Map<GetItemsResponse>(result.Value);
+        
         return Ok(response);
     }
     
