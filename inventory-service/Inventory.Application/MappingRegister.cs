@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Inventory.Application.Contracts.CreateProduct;
 using Inventory.Application.Contracts.GetProductById;
+using Inventory.Application.Contracts.UpdateProduct;
 
 namespace Inventory.Application;
 
@@ -18,6 +19,11 @@ public class MappingRegister : Profile
         CreateMap<GetProductById, Data.Contracts.Product>();
 
         CreateMap<Data.Contracts.Product, GetProductByIdResponse>()
+            .ReverseMap();
+        
+        CreateMap<UpdateProduct, Data.Contracts.Product>();
+
+        CreateMap<Data.Contracts.Product, UpdateProductResponse>()
             .ReverseMap();
     }
 }

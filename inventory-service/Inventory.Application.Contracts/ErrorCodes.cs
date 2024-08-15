@@ -13,4 +13,6 @@ public enum ErrorCodes
    PRODUCT_ID_INVALID,
    
    PRODUCT_NOT_FOUND,
+   
+   UPDATE_PRODUCT_FAILED,
 }

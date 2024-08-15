@@ -4,9 +4,11 @@ using Inventory.Application.Contracts;
 using Inventory.Application.Contracts.CreateProduct;
 using Inventory.Application.Contracts.GetProductById;
 using Inventory.Application.Contracts.GetProducts;
+using Inventory.Application.Contracts.UpdateProduct;
 using Inventory.Rest.Contracts.CreateItem;
 using Inventory.Rest.Contracts.GetItemById;
 using Inventory.Rest.Contracts.GetItems;
+using Inventory.Rest.Contracts.UpdateItem;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -57,6 +59,29 @@ public class ItemController(IMediator mediator, IMapper mapper) : ControllerBase
             return NotFound();
 
         var response = mapper.Map<GetItemByIdResponse>(result.Value);
+
+        return Ok(response);
+    }
+    
+    [HttpPut("/updateItem/{id}")]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    public async Task<ActionResult<UpdateItemResponse>> UpdateItemAsync([FromRoute] Guid id, [FromBody] UpdateItemRequest request)
+    {
+        var command = mapper.Map<UpdateProduct>(request);
+
+        command.ProductId = id;
+        
+        var result = await mediator.Send(command);
+
+        if (result.IsFailed && result.HasError(x => x.Message == ErrorCodes.PRODUCT_NOT_FOUND.ToString()))
+            return NotFound();
+        
+        if (result.IsFailed && result.HasError(x => x.Message == ErrorCodes.UPDATE_PRODUCT_FAILED.ToString()))
+            return BadRequest();
+
+        var response = mapper.Map<UpdateItemResponse>(result.Value);
 
         return Ok(response);
     }

@@ -2,10 +2,12 @@
 using Inventory.Application.Contracts.Abstractions;
 using Inventory.Application.Contracts.CreateProduct;
 using Inventory.Application.Contracts.GetProductById;
+using Inventory.Application.Contracts.UpdateProduct;
 using Inventory.Rest.Contracts.Abstractions;
 using Inventory.Rest.Contracts.CreateItem;
 using Inventory.Rest.Contracts.GetItemById;
 using Inventory.Rest.Contracts.GetItems;
+using Inventory.Rest.Contracts.UpdateItem;
 
 namespace Inventory.Rest.AspNetCore.Profiles;
 
@@ -25,6 +27,11 @@ public class MappingProfiles : Profile
             .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src));
 
         CreateMap<GetProductByIdResponse, GetItemByIdResponse>()
+            .ForMember(src => src.Id, opts => opts.MapFrom(dest => dest.ProductId));
+        
+        CreateMap<UpdateItemRequest, UpdateProduct>();
+
+        CreateMap<UpdateProductResponse, UpdateItemResponse>()
             .ForMember(src => src.Id, opts => opts.MapFrom(dest => dest.ProductId));
     }
 }

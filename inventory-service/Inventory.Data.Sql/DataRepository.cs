@@ -31,7 +31,7 @@ public class DataRepository : IDataRepository
     public async Task<Product?> UpdateProductAsync(Product product)
     {
         var existingProduct = await _dataContext.Products.FindAsync(product.ProductId);
-    
+
         if (existingProduct == null)
             return null;
 
