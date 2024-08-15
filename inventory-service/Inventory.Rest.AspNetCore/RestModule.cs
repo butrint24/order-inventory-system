@@ -19,7 +19,6 @@ public static class RestModule
         {
             c.CustomSchemaIds(type => type.ToString());
         });
-
         
         services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 
