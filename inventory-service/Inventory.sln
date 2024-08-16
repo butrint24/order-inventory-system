@@ -17,6 +17,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory.Rest.AspNetCore",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory.Rest.Contracts", "Inventory.Rest.Contracts\Inventory.Rest.Contracts.csproj", "{3B6BA5A4-D64F-425E-B6AD-AF48376ED26C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory.Grpc.Contracts", "Inventory.Grpc.Contracts\Inventory.Grpc.Contracts.csproj", "{D7AA03FB-300F-4A0F-90E3-C575D64CF686}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory.Grpc.AspNetCore", "Inventory.Grpc.AspNetCore\Inventory.Grpc.AspNetCore.csproj", "{509921B8-261F-4AF2-B377-F5942FB6FF76}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +55,14 @@ Global
 		{3B6BA5A4-D64F-425E-B6AD-AF48376ED26C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B6BA5A4-D64F-425E-B6AD-AF48376ED26C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B6BA5A4-D64F-425E-B6AD-AF48376ED26C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7AA03FB-300F-4A0F-90E3-C575D64CF686}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7AA03FB-300F-4A0F-90E3-C575D64CF686}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7AA03FB-300F-4A0F-90E3-C575D64CF686}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7AA03FB-300F-4A0F-90E3-C575D64CF686}.Release|Any CPU.Build.0 = Release|Any CPU
+		{509921B8-261F-4AF2-B377-F5942FB6FF76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{509921B8-261F-4AF2-B377-F5942FB6FF76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{509921B8-261F-4AF2-B377-F5942FB6FF76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{509921B8-261F-4AF2-B377-F5942FB6FF76}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

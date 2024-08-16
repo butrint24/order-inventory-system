@@ -17,6 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Inventory.Application\Inventory.Application.csproj" />
     <ProjectReference Include="..\Inventory.Data.Sql\Inventory.Data.Sql.csproj" />
+    <ProjectReference Include="..\Inventory.Grpc.AspNetCore\Inventory.Grpc.AspNetCore.csproj" />
     <ProjectReference Include="..\Inventory.Rest.AspNetCore\Inventory.Rest.AspNetCore.csproj" />
   </ItemGroup>
 
