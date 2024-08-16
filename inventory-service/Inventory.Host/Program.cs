@@ -11,6 +11,7 @@ public class Program
         Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
             .ConfigureWebHostDefaults(webBuilder =>
             {
-                webBuilder.UseStartup<Startup>();
+                webBuilder.UseStartup<Startup>()
+                    .UseUrls("http://localhost:32180"); 
             });
 }

@@ -1,5 +1,6 @@
 ﻿using Inventory.Application;
 using Inventory.Data.Sql;
+using Inventory.Grpc.AspNetCore;
 using Inventory.Rest.AspNetCore;
 
 namespace Inventory.Host;
@@ -19,6 +20,7 @@ public class Startup
         services.AddSqlModule(Configuration);
         services.AddApplicationModule();
         services.AddRestModule();
+        services.AddGrpcModule(Configuration);
     }
         
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -30,6 +32,7 @@ public class Startup
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();
+            endpoints.MapGrpcService<ProductServiceImplement>();
         });
     }
 }
