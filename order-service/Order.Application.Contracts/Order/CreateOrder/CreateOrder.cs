@@ -17,4 +17,6 @@ public class CreateOrder : ValidatorBase, IRequest<Result<CreateOrderResponse>>
     public Guid CustomerId { get; set; }
 
     public Abstractions.Customer CustomerDetails { get; set; }
+
+    public Guid ProductId { get; set; }
 }

@@ -7,4 +7,7 @@ public class PurchaseDetail : Abstractions.PurchaseDetail
 {
     [JsonPropertyName("userInfo")]
     public UserInfo UserInfo { get; set; }
+    
+    [JsonPropertyName("itemInfo")] 
+    public ItemInfo ItemInfo { get; set; }
 }

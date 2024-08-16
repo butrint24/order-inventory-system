@@ -80,25 +80,32 @@ public class MappingProfiles : Profile
         CreateMap<CreatePurchaseRequest, CreateOrder>()
             .ForMember(src => src.CustomerId, opts => opts.MapFrom(dest => dest.UserId))
             .ForMember(src => src.CustomerDetails, opts => opts.Ignore())
+            .ForMember(src => src.ProductId, opts => opts.MapFrom(dest => dest.ItemId))
             .ForMember(src => src.Status, opts => opts.MapFrom(dest => dest.Status));
         
         CreateMap<CreateOrderResponse, CreatePurchaseResponse>()
             .ForMember(src => src.Id, opts => opts.MapFrom(dest => dest.OrderId));
-        
+
         CreateMap<ApplicationContractsOrder, Order.Rest.Contracts.Purchase.GetPurchases.PurchaseDetail>()
             .ForMember(dest => dest.Id, opts => opts.MapFrom(src => src.OrderId))
+            .ForMember(dest => dest.ItemId, opts => opts.MapFrom(src => src.ProductId))
             .ForPath(dest => dest.UserInfo.FirstName, opts => opts.MapFrom(src => src.CustomerDetails.GivenName))
             .ForPath(dest => dest.UserInfo.LastName, opts => opts.MapFrom(src => src.CustomerDetails.FamilyName))
-            .ForPath(dest => dest.UserInfo.Address, opts => opts.MapFrom(src => src.CustomerDetails.Address));
+            .ForPath(dest => dest.UserInfo.Address, opts => opts.MapFrom(src => src.CustomerDetails.Address))
+            .ForPath(dest => dest.ItemInfo.Name, opts => opts.MapFrom(src => src.ProductInfo.Name))
+            .ForPath(dest => dest.ItemInfo.Description, opts => opts.MapFrom(src => src.ProductInfo.Details));
 
         CreateMap<IList<ApplicationContractsOrder>, GetPurchasesResponse>()
             .ForMember(dest => dest.Purchases, opt => opt.MapFrom(src => src));
 
         CreateMap<GetOrderByIdResponse, GetPurchaseByIdResponse>()
             .ForMember(src => src.Id, opts => opts.MapFrom(dest => dest.OrderId))
+            .ForMember(src => src.ItemId, opts => opts.MapFrom(dest => dest.ProductId))
             .ForPath(src => src.UserInfo.FirstName, opts => opts.MapFrom(dest => dest.CustomerDetails.GivenName))
             .ForPath(src => src.UserInfo.LastName, opts => opts.MapFrom(dest => dest.CustomerDetails.FamilyName))
-            .ForPath(src => src.UserInfo.Address, opts => opts.MapFrom(dest => dest.CustomerDetails.Address));
+            .ForPath(src => src.UserInfo.Address, opts => opts.MapFrom(dest => dest.CustomerDetails.Address))
+            .ForPath(src => src.ItemInfo.Name, opts => opts.MapFrom(dest => dest.ProductInfo.Name))
+            .ForPath(src => src.ItemInfo.Description, opts => opts.MapFrom(dest => dest.ProductInfo.Details));
 
         #endregion
 

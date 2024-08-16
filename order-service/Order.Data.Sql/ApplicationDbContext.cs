@@ -28,5 +28,9 @@ public class ApplicationDbContext : DbContext
             .HasConversion(
                 v => v.ToString(),
                 v => (OrderStatus)Enum.Parse(typeof(OrderStatus), v));
+        
+        modelBuilder.Entity<Contracts.Order>()
+            .Property(o => o.ProductId)
+            .IsRequired(); 
     }
 }

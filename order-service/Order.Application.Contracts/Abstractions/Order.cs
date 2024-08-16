@@ -1,4 +1,6 @@
-﻿namespace Order.Application.Contracts.Abstractions;
+﻿using System.Net.Http.Headers;
+
+namespace Order.Application.Contracts.Abstractions;
 
 public class Order
 {
@@ -15,4 +17,8 @@ public class Order
     public Guid CustomerId { get; set; }
 
     public Customer CustomerDetails { get; set; }
+
+    public Guid ProductId { get; set; }
+
+    public ProductInfo ProductInfo { get; set; }
 }

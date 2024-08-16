@@ -15,4 +15,6 @@ public class Order
     public Guid CustomerId { get; set; }
 
     public Customer CustomerDetails { get; set; }
+
+    public Guid ProductId { get; set; }
 }
