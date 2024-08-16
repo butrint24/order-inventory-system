@@ -18,4 +18,7 @@ public class PurchaseDetail
     
     [JsonPropertyName("price")]
     public decimal Price { get; set; }
+
+    [JsonPropertyName("itemId")]
+    public string ItemId { get; set; }
 }
