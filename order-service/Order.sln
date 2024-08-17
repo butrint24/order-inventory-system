@@ -17,6 +17,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order.Rest.AspNetCore", "Or
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order.Rest.Contracts", "Order.Rest.Contracts\Order.Rest.Contracts.csproj", "{66E25DC5-EDDB-49DD-B09A-D27B215A0E88}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order.Grpc.Contracts", "Order.Grpc.Contracts\Order.Grpc.Contracts.csproj", "{A35B78D3-AE0C-411E-99AE-68C5FBB6A47B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order.Grpc.AspNetCore", "Order.Grpc.AspNetCore\Order.Grpc.AspNetCore.csproj", "{39CA91E6-1480-4401-972F-6955ACA32523}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +55,14 @@ Global
 		{66E25DC5-EDDB-49DD-B09A-D27B215A0E88}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66E25DC5-EDDB-49DD-B09A-D27B215A0E88}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66E25DC5-EDDB-49DD-B09A-D27B215A0E88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A35B78D3-AE0C-411E-99AE-68C5FBB6A47B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A35B78D3-AE0C-411E-99AE-68C5FBB6A47B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A35B78D3-AE0C-411E-99AE-68C5FBB6A47B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A35B78D3-AE0C-411E-99AE-68C5FBB6A47B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39CA91E6-1480-4401-972F-6955ACA32523}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39CA91E6-1480-4401-972F-6955ACA32523}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39CA91E6-1480-4401-972F-6955ACA32523}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39CA91E6-1480-4401-972F-6955ACA32523}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

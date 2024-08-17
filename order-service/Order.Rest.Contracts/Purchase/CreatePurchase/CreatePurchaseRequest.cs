@@ -10,4 +10,7 @@ public class CreatePurchaseRequest : PurchaseDetail
 
     [JsonPropertyName("userId")]
     public string UserId { get; set; }
+    
+    [JsonIgnore]
+    public new decimal Price { get; set; }
 }

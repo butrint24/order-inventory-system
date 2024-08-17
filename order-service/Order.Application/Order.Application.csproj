@@ -9,6 +9,7 @@
     <ItemGroup>
       <ProjectReference Include="..\Order.Application.Contracts\Order.Application.Contracts.csproj" />
       <ProjectReference Include="..\Order.Data.Sql\Order.Data.Sql.csproj" />
+      <ProjectReference Include="..\Order.Grpc.AspNetCore\Order.Grpc.AspNetCore.csproj" />
     </ItemGroup>
 
     <ItemGroup>

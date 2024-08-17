@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using FluentResults;
 using MediatR;
+using Order.Application.Contracts.Abstractions;
 using Order.Application.Contracts.Order.GetOrders;
 using Order.Data.Contracts;
+using Order.Grpc.Contracts;
 using static FluentResults.Result;
 
 namespace Order.Application.Order;
@@ -10,13 +12,16 @@ namespace Order.Application.Order;
 public class GetOrdersHandler : IRequestHandler<GetOrders, Result<IList<Contracts.Abstractions.Order>>>
 {
     private readonly IDataRepository _repository;
+    private readonly IProductDataClient _productDataClient;
     private readonly IMapper _mapper;
 
     public GetOrdersHandler(
         IDataRepository repository,
+        IProductDataClient productDataClient,
         IMapper mapper)
     {
         _repository = repository;
+        _productDataClient = productDataClient;
         _mapper = mapper;
     }
 
@@ -32,6 +37,17 @@ public class GetOrdersHandler : IRequestHandler<GetOrders, Result<IList<Contract
         }
 
         var result = _mapper.Map<IList<Contracts.Abstractions.Order>>(getOrders);
+
+        foreach (var @order in result)
+        {
+            var productDetails = _productDataClient.GetProduct(@order.ProductId.ToString());
+
+            order.ProductInfo = new ProductInfo
+            {
+                Name = productDetails.Name,
+                Details = productDetails.Details
+            };
+        }
         
         return Ok(result);
     }

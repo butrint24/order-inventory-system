@@ -6,17 +6,8 @@ namespace Inventory.Grpc.AspNetCore;
 
 public static class GrpcModule
 {
-    public static void AddGrpcModule(this IServiceCollection services, IConfiguration configuration)
+    public static void AddGrpcModule(this IServiceCollection services)
     {
         services.AddGrpc();
-
-        var productServiceUrl = configuration["Grpc:ProductServiceUrl"];
-
-        services.AddGrpcClient<ProductService.ProductServiceClient>(options =>
-        {
-            options.Address = new Uri(productServiceUrl);
-        });
-
-        services.AddScoped<IProductService, ProductServiceImplement>();
     }
 }
