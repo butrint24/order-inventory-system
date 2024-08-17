@@ -20,7 +20,7 @@ public class Startup
         services.AddSqlModule(Configuration);
         services.AddApplicationModule();
         services.AddRestModule();
-        services.AddGrpcModule(Configuration);
+        services.AddGrpcModule();
     }
         
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

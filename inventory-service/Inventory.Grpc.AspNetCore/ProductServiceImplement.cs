@@ -1,16 +1,17 @@
-﻿using Inventory.Data.Contracts;
+﻿using Grpc.Core;
+using Inventory.Data.Contracts;
 using Inventory.Grpc.Contracts;
-using Product = Inventory.Grpc.Contracts.Product;
+using Product = Inventory.Grpc.Contracts.GrpcProductModel;
 
 namespace Inventory.Grpc.AspNetCore;
 
-public class ProductServiceImplement : IProductService
+public class ProductServiceImplement : ProductService.ProductServiceBase
 {
     private readonly IDataRepository _dataRepository;
 
     public ProductServiceImplement(IDataRepository dataRepository) => _dataRepository = dataRepository;
 
-    public async Task<GetProductResponse> GetProduct(GetProductRequest request)
+    public override async Task<GetProductResponse> GetProduct(GetProductRequest request, ServerCallContext context)
     {
         if (string.IsNullOrEmpty(request.ProductId))
         {

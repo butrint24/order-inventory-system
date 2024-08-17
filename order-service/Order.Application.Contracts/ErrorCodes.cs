@@ -21,4 +21,8 @@ public enum ErrorCodes
     ORDER_ID_INVALID,
     
     ORDER_NOT_FOUND,
+    
+    PRODUCT_NOT_FOUND,
+    
+    NOT_ENOUGH_STOCK,
 }

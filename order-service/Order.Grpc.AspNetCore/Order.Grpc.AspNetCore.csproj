@@ -7,14 +7,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Inventory.Data.Sql\Inventory.Data.Sql.csproj" />
-      <ProjectReference Include="..\Inventory.Grpc.Contracts\Inventory.Grpc.Contracts.csproj" />
+        <ProjectReference Include="..\Order.Grpc.Contracts\Order.Grpc.Contracts.csproj" />
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="AutoMapper" Version="12.0.0" />
+        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
         <PackageReference Include="Grpc.AspNetCore" Version="2.53.0" />
         <PackageReference Include="Google.Protobuf" Version="3.22.0" />
         <PackageReference Include="Grpc.Tools" Version="2.53.0" PrivateAssets="All" />
     </ItemGroup>
-
+    
 </Project>
