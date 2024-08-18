@@ -12,6 +12,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Fetch all branches
+        run: |
+          git fetch --all
+
       - name: Check branch name
         run: |
           # Get the branch name from the pull request
@@ -32,10 +36,18 @@ jobs:
 
       - name: Check commit messages
         run: |
-          # Fetch the latest commits in the PR
-          git fetch origin "${GITHUB_BASE_REF}:${GITHUB_BASE_REF}"
-          git log "origin/${GITHUB_BASE_REF}..${GITHUB_HEAD_REF}" --pretty=format:"%s" > commit_messages.txt
-          
+          # Ensure we are comparing commits between the base branch and the PR branch
+          BASE_BRANCH="${GITHUB_BASE_REF}"
+          HEAD_BRANCH="${GITHUB_HEAD_REF}"
+
+          echo "Fetching commits from base branch '${BASE_BRANCH}' and head branch '${HEAD_BRANCH}'"
+
+          git fetch origin "$BASE_BRANCH"
+          git fetch origin "$HEAD_BRANCH"
+
+          # Log commits between base and head branches
+          git log "origin/${BASE_BRANCH}..origin/${HEAD_BRANCH}" --pretty=format:"%s" > commit_messages.txt
+
           # Define valid commit message prefixes
           VALID_COMMIT_PREFIXES="^(chore|feat|fix):"
 
