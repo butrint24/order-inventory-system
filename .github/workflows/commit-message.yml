@@ -12,7 +12,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0
+          fetch-depth: 0 # Fetch all commits to have a complete history
 
       - name: Fetch base branch
         run: |
@@ -23,8 +23,8 @@ jobs:
           # Get the base branch reference (e.g., main)
           BASE_BRANCH="main"
 
-          # Fetch all commit messages between base branch and current branch
-          COMMITS=$(git log --oneline origin/${BASE_BRANCH}..HEAD --pretty=format:"%s")
+          # Fetch all commit messages between base branch and current branch, excluding merge commits
+          COMMITS=$(git log --oneline origin/${BASE_BRANCH}..HEAD --no-merges --pretty=format:"%s")
 
           # Define the valid prefixes
           VALID_PREFIXES="^(feat|fix|chore):"
