@@ -102,7 +102,7 @@ Swagger is integrated into the project for API documentation. You can access it 
 - **`GET /getPurchase/{id}`**
   - **Description**: Retrieves an order by its unique identifier.
   - **Response**: Returns the order details including customer information, product details, and order status.
-
+ 
 - **`POST /createPurchase`**
   - **Description**: Creates a new order. The request body must include customer and product details.
   - **Response**: Returns the unique identifier of the newly created order.
