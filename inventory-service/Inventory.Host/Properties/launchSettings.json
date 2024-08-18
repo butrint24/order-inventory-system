@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "http": {
+    "Inventory": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",
