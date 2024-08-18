@@ -1,11 +1,11 @@
-name: Check Branch Name
+name: Check Branch Name and Commit Message
 
 on:
   pull_request:
     types: [opened, synchronize, reopened]
 
 jobs:
-  check-branch-name:
+  check-branch-and-commit:
     runs-on: ubuntu-latest
 
     steps:
@@ -14,10 +14,8 @@ jobs:
           # Get the branch name from the pull request
           BRANCH_NAME="${GITHUB_HEAD_REF}"
           
-          # Define valid prefixes (without colon)
           VALID_PREFIXES="^(feat|fix|chore)/"
 
-          # Check if the branch name starts with a valid prefix
           if ! echo "$BRANCH_NAME" | grep -E "$VALID_PREFIXES" > /dev/null; then
             echo "Error: Branch name '$BRANCH_NAME' does not start with a valid prefix."
             echo "Branch names must start with one of the following prefixes:"
@@ -26,3 +24,22 @@ jobs:
             echo "  chore/ For maintenance tasks"
             exit 1
           fi
+
+      - name: Check commit messages
+        run: |
+          # Fetch the latest commits in the PR
+          git fetch origin "${GITHUB_BASE_REF}:${GITHUB_BASE_REF}"
+          git log "origin/${GITHUB_BASE_REF}..${GITHUB_HEAD_REF}" --pretty=format:"%s" > commit_messages.txt
+          
+          VALID_COMMIT_PREFIXES="^(chore|feat|fix):"
+
+          while IFS= read -r commit_message; do
+            if ! echo "$commit_message" | grep -E "$VALID_COMMIT_PREFIXES" > /dev/null; then
+              echo "Error: Commit message '$commit_message' does not start with a valid prefix."
+              echo "Commit messages must start with one of the following prefixes:"
+              echo "  chore:  For maintenance tasks"
+              echo "  feat:   For new features"
+              echo "  fix:    For bug fixes"
+              exit 1
+            fi
+          done < commit_messages.txt
