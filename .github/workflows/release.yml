@@ -71,7 +71,6 @@ jobs:
         FIX_COMMITS=$(echo "${{ env.COMMIT_MESSAGES }}" | grep '^fix:' || echo "No fix commits")
         CHORE_COMMITS=$(echo "${{ env.COMMIT_MESSAGES }}" | grep '^chore:' || echo "No chore commits")
         
-        FORMATTED_BODY="## Features\n\n${FEATURE_COMMITS}\n\n## Fixes\n\n${FIX_COMMITS}\n\n## Chores\n\n${CHORE_COMMITS}"
         echo "FORMATTED_BODY=$FORMATTED_BODY" >> $GITHUB_ENV
 
     - name: Debug Information
