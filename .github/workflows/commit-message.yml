@@ -24,14 +24,13 @@ jobs:
           BASE_BRANCH="main"
 
           # Fetch all commit messages between base branch and current branch
-          COMMITS=$(git log --oneline origin/${BASE_BRANCH}..HEAD)
-          
+          COMMITS=$(git log --oneline origin/${BASE_BRANCH}..HEAD --pretty=format:"%s")
+
           # Define the valid prefixes
           VALID_PREFIXES="^(feat|fix|chore):"
 
           # Check each commit message
-          for COMMIT in $COMMITS; do
-            MESSAGE=$(echo "$COMMIT" | cut -d ' ' -f 2-)
+          for MESSAGE in $COMMITS; do
             if ! echo "$MESSAGE" | grep -E "$VALID_PREFIXES" > /dev/null; then
               echo "Error: Commit message '$MESSAGE' does not start with a valid prefix."
               echo "Commit messages must start with one of the following prefixes:"
