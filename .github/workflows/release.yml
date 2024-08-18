@@ -74,15 +74,15 @@ jobs:
         FORMATTED_BODY=""
 
         if [ -n "$FEATURE_COMMITS" ]; then
-          FORMATTED_BODY+="**Features**\n\n${FEATURE_COMMITS}\n\n"
+          FORMATTED_BODY+="**Feature** \n${FEATURE_COMMITS}"
         fi
 
         if [ -n "$FIX_COMMITS" ]; then
-          FORMATTED_BODY+="**Fixes**\n\n${FIX_COMMITS}\n\n"
+          FORMATTED_BODY+="**Fix** \n${FIX_COMMITS}\n"
         fi
 
         if [ -n "$CHORE_COMMITS" ]; then
-          FORMATTED_BODY+="**Chores**\n\n${CHORE_COMMITS}\n\n"
+          FORMATTED_BODY+="**Chore** \n${CHORE_COMMITS}\n"
         fi
 
         echo "FORMATTED_BODY=$FORMATTED_BODY" >> $GITHUB_ENV
