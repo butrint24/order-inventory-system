@@ -11,18 +11,18 @@ jobs:
     steps:
       - name: Check branch name
         run: |
-          # Get the branch name
-          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+          # Get the branch name from the pull request
+          BRANCH_NAME="${GITHUB_HEAD_REF}"
           
-          # Define valid prefixes
+          # Define valid prefixes (without colon)
           VALID_PREFIXES="^(feat|fix|chore)/"
 
           # Check if the branch name starts with a valid prefix
           if ! echo "$BRANCH_NAME" | grep -E "$VALID_PREFIXES" > /dev/null; then
             echo "Error: Branch name '$BRANCH_NAME' does not start with a valid prefix."
             echo "Branch names must start with one of the following prefixes:"
-            echo "  feat/:  For new features"
-            echo "  fix/:   For bug fixes"
-            echo "  chore/: For maintenance tasks"
+            echo "  feat/  For new features"
+            echo "  fix/   For bug fixes"
+            echo "  chore/ For maintenance tasks"
             exit 1
           fi
