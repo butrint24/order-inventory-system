@@ -1,106 +1,185 @@
-# Order Management System
+# Order-Inventory System
 
-## Overview
+## Table of Contents
 
-This project demonstrates a microservices-based **Order Management System** implemented using .NET, gRPC, RabbitMQ, and Clean Architecture principles. The system consists of two microservices:
+1. [Project Overview](#project-overview)
+2. [Architecture](#architecture)
+    - [Clean Architecture](#clean-architecture)
+    - [Layered Structure](#layered-structure)
+3. [Project Structure](#project-structure)
+    - [Order Service](#order-service)
+    - [Inventory Service (Product Service)](#inventory-service-product-service)
+4. [Configuration](#configuration)
+    - [gRPC Configuration](#grpc-configuration)
+    - [RabbitMQ Configuration](#rabbitmq-configuration)
+    - [Database Configuration](#database-configuration)
+5. [API Documentation](#api-documentation)
+    - [Order Service Endpoints](#order-service-endpoints)
+    - [Inventory Service (Product Service) Endpoints](#inventory-service-product-service-endpoints)
+    - [gRPC Endpoints (Product Service)](#grpc-endpoints-product-service)
+6. [gRPC Communication](#grpc-communication)
+    - [ProductService Client](#productservice-client)
+7. [Message Queue Communication](#message-queue-communication)
+8. [Best Practices and Preferences](#best-practices-and-preferences)
 
-- **Order Service**: Manages order creation, retrieval, and updates.
-- **Inventory Service**: Manages inventory levels and provides stock information.
+## Project Overview
+
+The **Order Inventory System** is a microservices-based application that manages orders and inventory within a retail system. The project is built using .NET 8, following the principles of Clean Architecture to ensure separation of concerns, testability, and maintainability.
 
 ## Architecture
 
-The system follows the Clean Architecture pattern, which ensures a maintainable and scalable codebase. The architecture includes the following layers:
+### Clean Architecture
 
-- **Presentation Layer**: Defines how the system interacts with external requests and responses.
-  - **Order.Rest.AspNetCore**: This project defines the gRPC services and handles incoming requests via gRPC endpoints.
+This project adheres to Clean Architecture principles, organizing code into distinct layers that enforce clear boundaries and ensure that the core business logic is independent of external concerns like UI, databases, and frameworks.
 
-- **Application Layer**: Implements use cases and business logic.
-  - **Order.Application**: Implements the use cases and business logic.
-  - **Order.Application.Contracts**: Defines contracts or interfaces used by the Application Layer, providing a clear separation between the application logic and other layers.
+### Layered Structure
 
-- **Domain Layer**: Contains core business entities and rules.
-  - **Order.Data.Contracts**: Contains domain-related contracts and core business rules.
+The solution is divided into the following layers:
 
-- **Infrastructure Layer**: Manages data persistence and communication.
-  - **Order.Data.Pgsql**: Manages data persistence, specifically for PostgreSQL.
-  - **Order.Data.Contracts**: Defines the contracts related to data access.
-  - **RabbitMQ Communication**: Handles messaging and integration with RabbitMQ.
+- **Domain Layer**: Contains the core business logic and domain entities.
+- **Application Layer**: Implements use cases and interacts with the Domain Layer.
+- **Infrastructure Layer**: Provides implementations for external concerns like databases, messaging, and gRPC.
+- **Presentation Layer**: Includes API controllers and gRPC service implementations.
 
-## Solution Structure
-
-The solution file `Order.sln` includes the following projects:
-
-1. **Order.Host**
-   - **Path**: `Order.Host\Order.Host.csproj`
-   - **Description**: The entry point of the application, typically containing the `Startup` class and the configuration for the ASP.NET Core application.
-
-2. **Order.Data.Contracts**
-   - **Path**: `Order.Data.Contracts\Order.Data.Contracts.csproj`
-   - **Description**: Contains data access interfaces and contracts that define the data layer's interactions with the rest of the application.
-
-3. **Order.Data.Pgsql**
-   - **Path**: `Order.Data.Pgsql\Order.Data.Pgsql.csproj`
-   - **Description**: Implements the data access layer using PostgreSQL. It includes the concrete implementations of the data access interfaces.
-
-4. **Order.Application**
-   - **Path**: `Order.Application\Order.Application.csproj`
-   - **Description**: Contains application services, business logic, and use cases. It interacts with the domain layer and provides functionality to the presentation layer.
-
-5. **Order.Application.Contracts**
-   - **Path**: `Order.Application.Contracts\Order.Application.Contracts.csproj`
-   - **Description**: Defines contracts for application services and use cases, providing a layer of abstraction between the application and the domain.
-
-6. **Order.Rest.AspNetCore**
-   - **Path**: `Order.Rest.AspNetCore\Order.Rest.AspNetCore.csproj`
-   - **Description**: The ASP.NET Core web API project that serves as the presentation layer for the application. It handles HTTP requests and responses.
-
-7. **Order.Rest.Contracts**
-   - **Path**: `Order.Rest.Contracts\Order.Rest.Contracts.csproj`
-   - **Description**: Contains contracts and models used for communication between the API and clients.
-
-## Microservices
+## Project Structure
 
 ### Order Service
 
-- **Responsibilities**: 
-  - Create orders.
-  - Retrieve order details.
+The Order Service is responsible for managing customer orders. It communicates with the Product Service via gRPC to retrieve product information and uses RabbitMQ for message-based communication.
 
-- **Endpoints**:
-  1. **CreateOrder** (gRPC)
-     - **Request**: Contains order details such as product ID, quantity, and customer ID.
-     - **Response**: Returns order ID and status.
-  2. **GetOrderDetails** (gRPC)
-     - **Request**: Order ID.
-     - **Response**: Returns order details including status, items, and customer information.
+**Key Projects:**
+- `Order.Host`: The entry point for the Order service.
+- `Order.Application`: Contains business logic and use cases.
+- `Order.Data`: Manages data access and persistence.
+- `Order.Grpc.Contracts`: Defines gRPC contracts for communication with the Product Service.
+- `Order.Grpc.AspNetCore`: Implements the gRPC client and server-side logic.
+- `Order.Message.Contracts`: Defines message contracts for RabbitMQ communication.
+- `Order.Message.RabbitMQ`: Implements RabbitMQ messaging.
 
-### Inventory Service
+### Inventory Service (Product Service)
 
-- **Responsibilities**:
-  - Manage inventory levels.
-  - Provide stock information.
+The Inventory Service manages the product catalog and stock levels. It exposes a gRPC service that the Order Service can call to fetch product details.
 
-- **Endpoints**:
-  1. **UpdateStock** (gRPC)
-     - **Request**: Contains product ID and new stock quantity.
-     - **Response**: Returns success or failure status.
-  2. **GetStockInfo** (gRPC)
-     - **Request**: Product ID.
-     - **Response**: Returns current stock level and product details.
+**Key Projects:**
+- `Inventory.Host`: The entry point for the Inventory service.
+- `Inventory.Application`: Contains business logic and use cases.
+- `Inventory.Data`: Manages data access and persistence.
+- `Inventory.Grpc.Contracts`: Defines gRPC contracts for the Product Service.
+- `Inventory.Grpc.AspNetCore`: Implements the gRPC service for product information.
+- `Inventory.Message.Contracts`: Defines message contracts for RabbitMQ communication.
+- `Inventory.Message.RabbitMQ`: Implements RabbitMQ messaging.
 
-## Communication Flow
+## Configuration
 
-1. **Order Creation Flow**:
-   - The **Order Service** receives a `CreateOrder` request via gRPC.
-   - After creating the order, it sends a message to the **Inventory Service** via RabbitMQ to update stock levels based on the order items.
-   - The **Inventory Service** processes the message, updates stock levels, and optionally sends a confirmation back to the **Order Service**.
-   - The **Order Service** completes the order creation process and may notify the user of the successful order.
+### gRPC Configuration
 
-2. **Stock Check Flow**:
-   - Before creating an order, the **Order Service** calls the **Inventory Service**'s `GetStockInfo` endpoint via gRPC to verify stock levels.
+Both services use gRPC for inter-service communication. The `GrpcModule` classes in each service configure the gRPC clients and services.
 
-## Installation and Setup
+- **Order Service** runs on port 46737.
+- **Inventory Service** runs on port 32180.
 
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/butrint24/thesis-order-inventory-system.git
+The gRPC service and client are configured in the respective `Startup` classes and `GrpcModule` classes.
+
+### RabbitMQ Configuration
+
+RabbitMQ is used for message-based communication between services. The message contracts are defined in the `Order.Message.Contracts` and `Inventory.Message.Contracts` projects.
+
+Configure RabbitMQ settings in the `appsettings.json` file of each service.
+
+### Database Configuration
+
+The services use SQL databases, with configuration handled in the `SqlModule` classes. Update the connection strings in the `appsettings.json` files.
+
+## API Documentation
+
+Swagger is integrated into the project for API documentation. You can access it at:
+
+- **Order Service**: `http://localhost:5284/swagger`
+- **Inventory Service**: `http://localhost:32180/swagger`
+
+### Order Service Endpoints
+```
+- **`GET /getPurchase/{id}`**
+  - **Description**: Retrieves an order by its unique identifier.
+  - **Response**: Returns the order details including customer information, product details, and order status.
+
+- **`POST /createPurchase`**
+  - **Description**: Creates a new order. The request body must include customer and product details.
+  - **Response**: Returns the unique identifier of the newly created order.
+
+- **`GET /getPurchases`**
+  - **Description**: Retrieves a list of purchases made by customers. Optionally, it can filter by date range or customer ID.
+  - **Response**: Returns a list of purchase details, including purchase date, product details, and total amount.
+
+- **`DELETE /deletePurchase/{id}`**
+  - **Description**: Deletes an order by its unique identifier.
+  - **Response**: Returns a `204 No Content` status if the deletion is successful.
+```
+---
+```
+- **`GET /getUser/{id}`**
+  - **Description**: Retrieves an user by its unique identifier.
+  - **Response**: Returns the user details including their purchase history.
+
+- **`POST /createUser`**
+  - **Description**: Creates a new user.
+  - **Response**: Returns the unique identifier of the newly created user.
+
+- **`GET /getUsers`**
+  - **Description**: Retrieves a list of users.
+  - **Response**: Returns a list of user details including their purchase history.
+
+- **`DELETE /deleteUser/{id}`**
+  - **Description**: Deletes an user by its unique identifier.
+  - **Response**: Returns a `204 No Content` status if the deletion is successful.
+```
+***
+
+### Inventory Service (Product Service) Endpoints
+```
+- **`GET /getItem/{id}`**
+  - **Description**: Retrieves product details by its unique identifier.
+  - **Response**: Returns the product details including name, price, stock availability, and additional details.
+
+- **`POST /createItem`**
+  - **Description**: Adds a new product to the inventory. The request body must include product details.
+  - **Response**: Returns the unique identifier of the newly created product.
+
+- **`GET /getItems`**
+  - **Description**: Retrieves a list of all available products. Can be filtered by category or stock availability.
+  - **Response**: Returns a list of products, including their identifiers, names, prices, and stock levels.
+
+- **`PUT /updateItem/{id}`**
+  - **Description**: Updates an existing product's details. The request body must include the updated product information.
+  - **Response**: Returns a `204 No Content` status if the update is successful.
+
+- **`DELETE /deleteItem/{id}`**
+  - **Description**: Deletes a product from the inventory by its unique identifier.
+  - **Response**: Returns a `204 No Content` status if the deletion is successful.
+```
+### gRPC Endpoints (Product Service)
+
+In addition to the REST API endpoints, the Inventory Service also exposes gRPC endpoints for inter-service communication.
+
+- **`rpc GetProduct(GetProductRequest) returns (GetProductResponse)`**
+  - **Description**: Retrieves product details via a gRPC call. This endpoint is used internally by the Order Service to fetch product information.
+  - **Request**: A `GetProductRequest` containing the product ID.
+  - **Response**: A `GetProductResponse` containing the product details.
+
+## gRPC Communication
+
+### ProductService Client
+
+The Order Service uses a gRPC client to communicate with the Product Service. This client is configured in the `GrpcModule` class of the `Order.Grpc.AspNetCore` project.
+
+## Message Queue Communication
+
+RabbitMQ is used for message-based communication between the services. Messages related to stock updates are published to RabbitMQ, and the Product Service listens to these messages to update stock levels.
+
+## Best Practices and Preferences
+
+- **Nullability**: Nullable types are used throughout the project.
+- **Swagger**: Integrated for API documentation.
+- **HTTP Status Codes**: A `204 No Content` status code is returned when a body is not needed.
+- **Port Configurations**: Custom ports are configured for gRPC services.
+- **No Copy of .proto Files**: `.proto` files are not copied to the output directory.
