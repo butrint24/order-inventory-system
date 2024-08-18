@@ -11,11 +11,20 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Fetch base branch
+        run: |
+          git fetch origin main
 
       - name: Check commit messages
         run: |
-          # Fetch all commit messages for the PR
-          COMMITS=$(git log --oneline origin/main..HEAD)
+          # Get the base branch reference (e.g., main)
+          BASE_BRANCH="main"
+
+          # Fetch all commit messages between base branch and current branch
+          COMMITS=$(git log --oneline origin/${BASE_BRANCH}..HEAD)
           
           # Define the valid prefixes
           VALID_PREFIXES="^(feat|fix|chore):"
