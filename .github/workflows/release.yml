@@ -19,8 +19,7 @@ jobs:
         fetch-depth: 0
 
     - name: Fetch all tags
-      run: |
-        git fetch --tags
+      run: git fetch --tags
 
     - name: Get the latest tag
       id: get_latest_tag
@@ -31,19 +30,16 @@ jobs:
     - name: Determine next version
       id: determine_version
       run: |
-        # Extract the current version
-        VERSION=${LATEST_TAG#v}
+        VERSION=${{ env.LATEST_TAG#v }}
         if [ -z "$VERSION" ]; then
           VERSION="0.0.0"
         fi
         IFS='.' read -r -a VERSION_PARTS <<< "$VERSION"
         
-        # Default version parts
         MAJOR=${VERSION_PARTS[0]}
         MINOR=${VERSION_PARTS[1]}
         PATCH=${VERSION_PARTS[2]}
         
-        # Determine increment based on commit message
         if git log -1 --pretty=%B | grep -q '^feat:'; then
           MAJOR=$((MAJOR + 1))
           MINOR=0
@@ -61,8 +57,10 @@ jobs:
     - name: Get commit messages
       id: get_commit_messages
       run: |
-        COMMITS=$(git log --pretty=format:"%s" $LATEST_TAG..HEAD)
-        echo "COMMIT_MESSAGES=$COMMITS" >> $GITHUB_ENV
+        COMMITS=$(git log --pretty=format:"%s" ${{ env.LATEST_TAG }}..HEAD)
+        echo "COMMIT_MESSAGES<<EOF" >> $GITHUB_ENV
+        echo "$COMMITS" >> $GITHUB_ENV
+        echo "EOF" >> $GITHUB_ENV
 
     - name: Format commit messages
       id: format_commit_messages
@@ -74,18 +72,20 @@ jobs:
         FORMATTED_BODY=""
 
         if [ -n "$FEATURE_COMMITS" ]; then
-          FORMATTED_BODY+="**Features**: ${FEATURE_COMMITS}"
+          FORMATTED_BODY+="**Feature:**  ${FEATURE_COMMITS}\n"
         fi
 
         if [ -n "$FIX_COMMITS" ]; then
-          FORMATTED_BODY+="**Fixes**: ${FIX_COMMITS}"
+          FORMATTED_BODY+="**Fix:**  ${FIX_COMMITS}\n"
         fi
 
         if [ -n "$CHORE_COMMITS" ]; then
-          FORMATTED_BODY+="**Chores**: ${CHORE_COMMITS}"
+          FORMATTED_BODY+="**Chore:**  ${CHORE_COMMITS}\n"
         fi
 
-        echo "FORMATTED_BODY=$FORMATTED_BODY" >> $GITHUB_ENV
+        echo "FORMATTED_BODY<<EOF" >> $GITHUB_ENV
+        echo "$FORMATTED_BODY" >> $GITHUB_ENV
+        echo "EOF" >> $GITHUB_ENV
 
     - name: Debug Information
       run: |
