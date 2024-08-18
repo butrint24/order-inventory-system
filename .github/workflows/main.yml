@@ -1,0 +1,42 @@
+name: Check Commit Messages
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  check-commits:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Fetch base branch
+        run: |
+          git fetch origin main
+
+      - name: Check commit messages
+        run: |
+          # Get the base branch reference (e.g., main)
+          BASE_BRANCH="main"
+
+          # Fetch all commit messages between base branch and current branch
+          COMMITS=$(git log --oneline origin/${BASE_BRANCH}..HEAD --pretty=format:"%s")
+
+          # Define the valid prefixes
+          VALID_PREFIXES="^(feat|fix|chore):"
+
+          # Check each commit message
+          for MESSAGE in $COMMITS; do
+            if ! echo "$MESSAGE" | grep -E "$VALID_PREFIXES" > /dev/null; then
+              echo "Error: Commit message '$MESSAGE' does not start with a valid prefix."
+              echo "Commit messages must start with one of the following prefixes:"
+              echo "  feat:  For new features"
+              echo "  fix:   For bug fixes"
+              echo "  chore: For maintenance tasks"
+              exit 1
+            fi
+          done
