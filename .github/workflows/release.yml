@@ -27,6 +27,9 @@ jobs:
       run: |
         # Extract the current version
         VERSION=${LATEST_TAG#v}
+        if [ -z "$VERSION" ]; then
+          VERSION="0.0.0"
+        fi
         IFS='.' read -r -a VERSION_PARTS <<< "$VERSION"
         
         # Default version parts
@@ -34,7 +37,7 @@ jobs:
         MINOR=${VERSION_PARTS[1]}
         PATCH=${VERSION_PARTS[2]}
         
-        # Determine increment
+        # Determine increment based on commit message
         if git log -1 --pretty=%B | grep -q '^feat:'; then
           MAJOR=$((MAJOR + 1))
           MINOR=0
@@ -50,7 +53,7 @@ jobs:
         echo "NEXT_VERSION=$NEXT_VERSION" >> $GITHUB_ENV
 
     - name: Create tag and release
-      uses: actions/create-release@v1
+      uses: actions/create-release@v1.1.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -58,3 +61,5 @@ jobs:
         release_name: Release ${{ env.NEXT_VERSION }}
         body: |
           Auto-generated release for version ${{ env.NEXT_VERSION }}
+        draft: false
+        prerelease: false
