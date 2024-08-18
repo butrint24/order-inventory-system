@@ -74,17 +74,17 @@ jobs:
         FORMATTED_BODY=""
 
         if [ -n "$FEATURE_COMMITS" ]; then
-          FORMATTED_BODY+="**Feature**"
+          FORMATTED_BODY+="**Feature**" \n
           FORMATTED_BODY+="${FEATURE_COMMITS}"
         fi
 
         if [ -n "$FIX_COMMITS" ]; then
-          FORMATTED_BODY+="**Fix** \n${FIX_COMMITS}\n"
+          FORMATTED_BODY+="**Fix** \n
           FORMATTED_BODY+="${FIX_COMMITS}"
         fi
 
         if [ -n "$CHORE_COMMITS" ]; then
-          FORMATTED_BODY+="**Chore**"
+          FORMATTED_BODY+="**Chore**" \n
           FORMATTED_BODY+="${CHORE_COMMITS}"
         fi
 
