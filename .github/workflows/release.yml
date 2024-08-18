@@ -79,7 +79,7 @@ jobs:
         fi
 
         if [ -n "$FIX_COMMITS" ]; then
-          FORMATTED_BODY+="**Fix:**  " \n
+          FORMATTED_BODY+="**Fix:**  "
           FORMATTED_BODY+="${FIX_COMMITS}"
         fi
 
