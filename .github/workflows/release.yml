@@ -16,7 +16,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
       with:
-        fetch-depth: 0
+        fetch-depth: 0 
 
     - name: Fetch all tags
       run: |
@@ -58,10 +58,17 @@ jobs:
         NEXT_VERSION="v${MAJOR}.${MINOR}.${PATCH}"
         echo "NEXT_VERSION=$NEXT_VERSION" >> $GITHUB_ENV
 
+    - name: Get commit messages
+      id: get_commit_messages
+      run: |
+        COMMITS=$(git log --pretty=format:"%h - %s" $LATEST_TAG..HEAD)
+        echo "COMMIT_MESSAGES=$COMMITS" >> $GITHUB_ENV
+
     - name: Debug Information
       run: |
         echo "LATEST_TAG=${{ env.LATEST_TAG }}"
         echo "NEXT_VERSION=${{ env.NEXT_VERSION }}"
+        echo "COMMIT_MESSAGES=${{ env.COMMIT_MESSAGES }}"
 
     - name: Create tag and release
       uses: actions/create-release@v1.1.0
@@ -70,6 +77,9 @@ jobs:
         release_name: Release ${{ env.NEXT_VERSION }}
         body: |
           Auto-generated release for version ${{ env.NEXT_VERSION }}
+
+          ## Commits:
+          ${{ env.COMMIT_MESSAGES }}
         draft: false
         prerelease: false
       env:
