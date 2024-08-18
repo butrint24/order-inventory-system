@@ -92,7 +92,7 @@ The services use SQL databases, with configuration handled in the `SqlModule` cl
 
 ## API Documentation
 
-Swagger is integrated into the project for API documentation. You can access it at:
+Swagger is integrated into the project for API documentation. You can access it at: 
 
 - **Order Service**: `http://localhost:5284/swagger`
 - **Inventory Service**: `http://localhost:32180/swagger`
