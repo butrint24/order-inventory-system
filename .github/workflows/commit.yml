@@ -51,8 +51,13 @@ jobs:
           # Define valid commit message prefixes
           VALID_COMMIT_PREFIXES="^(chore|feat|fix):"
 
+          # Print the commit messages for debugging
+          echo "Commit messages:"
+          cat commit_messages.txt
+
           # Check each commit message
           while IFS= read -r commit_message; do
+            echo "Checking commit message: '$commit_message'"
             if ! echo "$commit_message" | grep -E "$VALID_COMMIT_PREFIXES" > /dev/null; then
               echo "Error: Commit message '$commit_message' does not start with a valid prefix."
               echo "Commit messages must start with one of the following prefixes:"
