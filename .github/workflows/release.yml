@@ -16,7 +16,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
       with:
-        fetch-depth: 0 
+        fetch-depth: 0
 
     - name: Fetch all tags
       run: |
@@ -67,11 +67,24 @@ jobs:
     - name: Format commit messages
       id: format_commit_messages
       run: |
-        FEATURE_COMMITS=$(echo "${{ env.COMMIT_MESSAGES }}" | grep '^feat:' || echo "No feature commits")
-        FIX_COMMITS=$(echo "${{ env.COMMIT_MESSAGES }}" | grep '^fix:' || echo "No fix commits")
-        CHORE_COMMITS=$(echo "${{ env.COMMIT_MESSAGES }}" | grep '^chore:' || echo "No chore commits")
-        
-        FORMATTED_BODY="## Features\n\n${FEATURE_COMMITS}\n\n## Fixes\n\n${FIX_COMMITS}\n\n## Chores\n\n${CHORE_COMMITS}"
+        FEATURE_COMMITS=$(echo "${{ env.COMMIT_MESSAGES }}" | grep '^feat:' || echo "")
+        FIX_COMMITS=$(echo "${{ env.COMMIT_MESSAGES }}" | grep '^fix:' || echo "")
+        CHORE_COMMITS=$(echo "${{ env.COMMIT_MESSAGES }}" | grep '^chore:' || echo "")
+
+        FORMATTED_BODY=""
+
+        if [ -n "$FEATURE_COMMITS" ]; then
+          FORMATTED_BODY+="## Features\n\n${FEATURE_COMMITS}\n\n"
+        fi
+
+        if [ -n "$FIX_COMMITS" ]; then
+          FORMATTED_BODY+="## Fixes\n\n${FIX_COMMITS}\n\n"
+        fi
+
+        if [ -n "$CHORE_COMMITS" ]; then
+          FORMATTED_BODY+="## Chores\n\n${CHORE_COMMITS}\n\n"
+        fi
+
         echo "FORMATTED_BODY=$FORMATTED_BODY" >> $GITHUB_ENV
 
     - name: Debug Information
