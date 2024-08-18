@@ -61,14 +61,24 @@ jobs:
     - name: Get commit messages
       id: get_commit_messages
       run: |
-        COMMITS=$(git log --pretty=format:"%h - %s" $LATEST_TAG..HEAD)
+        COMMITS=$(git log --pretty=format:"%s" $LATEST_TAG..HEAD)
         echo "COMMIT_MESSAGES=$COMMITS" >> $GITHUB_ENV
+
+    - name: Format commit messages
+      id: format_commit_messages
+      run: |
+        FEATURE_COMMITS=$(echo "${{ env.COMMIT_MESSAGES }}" | grep '^feat:' || echo "No feature commits")
+        FIX_COMMITS=$(echo "${{ env.COMMIT_MESSAGES }}" | grep '^fix:' || echo "No fix commits")
+        CHORE_COMMITS=$(echo "${{ env.COMMIT_MESSAGES }}" | grep '^chore:' || echo "No chore commits")
+        
+        FORMATTED_BODY="## Features\n\n${FEATURE_COMMITS}\n\n## Fixes\n\n${FIX_COMMITS}\n\n## Chores\n\n${CHORE_COMMITS}"
+        echo "FORMATTED_BODY=$FORMATTED_BODY" >> $GITHUB_ENV
 
     - name: Debug Information
       run: |
         echo "LATEST_TAG=${{ env.LATEST_TAG }}"
         echo "NEXT_VERSION=${{ env.NEXT_VERSION }}"
-        echo "COMMIT_MESSAGES=${{ env.COMMIT_MESSAGES }}"
+        echo "FORMATTED_BODY=${{ env.FORMATTED_BODY }}"
 
     - name: Create tag and release
       uses: actions/create-release@v1.1.0
@@ -78,8 +88,7 @@ jobs:
         body: |
           Auto-generated release for version ${{ env.NEXT_VERSION }}
 
-          ## Commits:
-          ${{ env.COMMIT_MESSAGES }}
+          ${{ env.FORMATTED_BODY }}
         draft: false
         prerelease: false
       env:
