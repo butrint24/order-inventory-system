@@ -15,11 +15,17 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Fetch all tags
+      run: |
+        git fetch --tags
 
     - name: Get the latest tag
       id: get_latest_tag
       run: |
-        TAG=$(git describe --tags --abbrev=0 || echo "v0.0.0")
+        TAG=$(git tag --sort=-v:refname | head -n 1 || echo "v0.0.0")
         echo "LATEST_TAG=$TAG" >> $GITHUB_ENV
 
     - name: Determine next version
@@ -52,10 +58,13 @@ jobs:
         NEXT_VERSION="v${MAJOR}.${MINOR}.${PATCH}"
         echo "NEXT_VERSION=$NEXT_VERSION" >> $GITHUB_ENV
 
+    - name: Debug Information
+      run: |
+        echo "LATEST_TAG=${{ env.LATEST_TAG }}"
+        echo "NEXT_VERSION=${{ env.NEXT_VERSION }}"
+
     - name: Create tag and release
       uses: actions/create-release@v1.1.0
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: ${{ env.NEXT_VERSION }}
         release_name: Release ${{ env.NEXT_VERSION }}
@@ -63,3 +72,5 @@ jobs:
           Auto-generated release for version ${{ env.NEXT_VERSION }}
         draft: false
         prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
