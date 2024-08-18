@@ -98,7 +98,7 @@ Swagger is integrated into the project for API documentation. You can access it 
 - **Inventory Service**: `http://localhost:32180/swagger`
 
 ### Order Service Endpoints
-```
+
 - **`GET /getPurchase/{id}`**
   - **Description**: Retrieves an order by its unique identifier.
   - **Response**: Returns the order details including customer information, product details, and order status.
@@ -114,9 +114,9 @@ Swagger is integrated into the project for API documentation. You can access it 
 - **`DELETE /deletePurchase/{id}`**
   - **Description**: Deletes an order by its unique identifier.
   - **Response**: Returns a `204 No Content` status if the deletion is successful.
-```
+
 ---
-```
+
 - **`GET /getUser/{id}`**
   - **Description**: Retrieves an user by its unique identifier.
   - **Response**: Returns the user details including their purchase history.
@@ -132,11 +132,11 @@ Swagger is integrated into the project for API documentation. You can access it 
 - **`DELETE /deleteUser/{id}`**
   - **Description**: Deletes an user by its unique identifier.
   - **Response**: Returns a `204 No Content` status if the deletion is successful.
-```
+
 ***
 
 ### Inventory Service (Product Service) Endpoints
-```
+
 - **`GET /getItem/{id}`**
   - **Description**: Retrieves product details by its unique identifier.
   - **Response**: Returns the product details including name, price, stock availability, and additional details.
@@ -156,7 +156,7 @@ Swagger is integrated into the project for API documentation. You can access it 
 - **`DELETE /deleteItem/{id}`**
   - **Description**: Deletes a product from the inventory by its unique identifier.
   - **Response**: Returns a `204 No Content` status if the deletion is successful.
-```
+
 ### gRPC Endpoints (Product Service)
 
 In addition to the REST API endpoints, the Inventory Service also exposes gRPC endpoints for inter-service communication.
