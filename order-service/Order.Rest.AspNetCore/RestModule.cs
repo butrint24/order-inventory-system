@@ -2,6 +2,7 @@
 using System.Text.Json.Serialization;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 using Order.Rest.AspNetCore.Profiles;
 
 namespace Order.Rest.AspNetCore;
@@ -16,9 +17,12 @@ public static class RestModule
         });
         
         services.AddEndpointsApiExplorer();
+        
         services.AddSwaggerGen(c =>
         {
-            c.CustomSchemaIds(type => type.ToString());
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Order", Version = "v1" });
+            c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+            c.CustomSchemaIds(type => type.FullName);
         });
 
         

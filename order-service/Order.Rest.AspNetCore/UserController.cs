@@ -14,7 +14,7 @@ using Order.Rest.Contracts.User.GetUsers;
 namespace Order.Rest.AspNetCore;
 
 [ApiController]
-[Route("api/v1")]
+[Route("[controller]")]
 public class UserController(IMediator mediator, IMapper mapper) : ControllerBase
 {
     [HttpPost("/createUser")]

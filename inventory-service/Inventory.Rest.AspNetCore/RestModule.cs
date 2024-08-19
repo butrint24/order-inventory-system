@@ -2,6 +2,7 @@
 using Inventory.Rest.AspNetCore.Profiles;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 
 namespace Inventory.Rest.AspNetCore;
 
@@ -17,7 +18,9 @@ public static class RestModule
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(c =>
         {
-            c.CustomSchemaIds(type => type.ToString());
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Inventory", Version = "v1" });
+            c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+            c.CustomSchemaIds(type => type.FullName);
         });
         
         services.AddAutoMapper(typeof(MappingProfiles).Assembly);
