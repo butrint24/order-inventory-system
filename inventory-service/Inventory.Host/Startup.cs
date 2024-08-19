@@ -25,8 +25,13 @@ public class Startup
         
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
-        app.UseSwagger();
-        app.UseSwaggerUI();
+        if(env.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Inventory v1"));
+        }
+
         app.UseRouting();
         app.UseAuthorization();
         app.UseEndpoints(endpoints =>
@@ -34,5 +39,7 @@ public class Startup
             endpoints.MapControllers();
             endpoints.MapGrpcService<ProductServiceImplement>();
         });
+        
+        PrepDb.PrepPopulation(app, env.IsProduction());
     }
 }

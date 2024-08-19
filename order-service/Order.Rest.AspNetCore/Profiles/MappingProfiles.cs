@@ -46,7 +46,8 @@ public class MappingProfiles : Profile
                         Details = @event.Details,
                         Price = @event.Price,
                         Status = (PurchaseStatus)@event.Status,
-                        Quantity = @event.Quantity
+                        Quantity = @event.Quantity,
+                        ItemId = @event.ProductId.ToString()
                     });
                 }
             });
@@ -68,7 +69,8 @@ public class MappingProfiles : Profile
                         Details = @event.Details,
                         Price = @event.Price,
                         Status = (PurchaseStatus)@event.Status,
-                        Quantity = @event.Quantity
+                        Quantity = @event.Quantity,
+                        ItemId = @event.ProductId.ToString()
                     });
                 }
             });
