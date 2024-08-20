@@ -14,10 +14,10 @@ using Order.Rest.Contracts.User.GetUsers;
 namespace Order.Rest.AspNetCore;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/order/[controller]")]
 public class UserController(IMediator mediator, IMapper mapper) : ControllerBase
 {
-    [HttpPost("/createUser")]
+    [HttpPost("createUser")]
     public async Task<ActionResult<CreateUserResponse>> CreateUserAsync(CreateUserRequest request)
     {
         var command = mapper.Map<CreateCustomer>(request);
@@ -32,7 +32,7 @@ public class UserController(IMediator mediator, IMapper mapper) : ControllerBase
         return Ok(response);
     }
     
-    [HttpGet("/getUsers")]
+    [HttpGet("getUsers")]
     public async Task<ActionResult<GetUsersResponse>> GetUsersAsync()
     {
         var result = await mediator.Send(new GetCustomers());
@@ -42,7 +42,7 @@ public class UserController(IMediator mediator, IMapper mapper) : ControllerBase
         return Ok(response);
     }
     
-    [HttpGet("/getUser/{id}")]
+    [HttpGet("getUser/{id}")]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     public async Task<ActionResult<GetUsersResponse>> GetUsersByIdAsync([FromRoute] Guid id)
@@ -62,7 +62,7 @@ public class UserController(IMediator mediator, IMapper mapper) : ControllerBase
         return Ok(response);
     }
     
-    [HttpDelete("/deleteUser/{id}")]
+    [HttpDelete("deleteUser/{id}")]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
     public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)

@@ -16,10 +16,10 @@ using Microsoft.AspNetCore.Mvc;
 namespace Inventory.Rest.AspNetCore;
 
 [ApiController]
-[Route("api/v1")]
+[Route("api/inventory/[controller]")]
 public class ItemController(IMediator mediator, IMapper mapper) : ControllerBase
 {
-    [HttpPost("/createItem")]
+    [HttpPost("createItem")]
     public async Task<ActionResult<CreateItemResponse>> CreateItemAsync(CreateItemRequest request)
     {
         var command = mapper.Map<CreateProduct>(request);
@@ -34,7 +34,7 @@ public class ItemController(IMediator mediator, IMapper mapper) : ControllerBase
         return Ok(response);
     }
     
-    [HttpGet("/getItems")]
+    [HttpGet("getItems")]
     public async Task<ActionResult<GetItemsResponse>> GetItemsAsync()
     {
         var result = await mediator.Send(new GetProducts());
@@ -44,7 +44,7 @@ public class ItemController(IMediator mediator, IMapper mapper) : ControllerBase
         return Ok(response);
     }
     
-    [HttpGet("/getItem/{id}")]
+    [HttpGet("getItem/{id}")]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     public async Task<ActionResult<GetItemByIdResponse>> GetItemsByIdAsync([FromRoute] Guid id)
@@ -64,7 +64,7 @@ public class ItemController(IMediator mediator, IMapper mapper) : ControllerBase
         return Ok(response);
     }
     
-    [HttpPut("/updateItem/{id}")]
+    [HttpPut("updateItem/{id}")]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.OK)]
@@ -87,7 +87,7 @@ public class ItemController(IMediator mediator, IMapper mapper) : ControllerBase
         return Ok(response);
     }
     
-    [HttpDelete("/deleteItem/{id}")]
+    [HttpDelete("deleteItem/{id}")]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
     public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
