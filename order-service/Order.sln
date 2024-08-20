@@ -21,6 +21,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order.Grpc.Contracts", "Ord
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order.Grpc.AspNetCore", "Order.Grpc.AspNetCore\Order.Grpc.AspNetCore.csproj", "{39CA91E6-1480-4401-972F-6955ACA32523}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order.Messaging.Contracts", "Order.Messaging.Contracts\Order.Messaging.Contracts.csproj", "{651AC809-897E-476C-AEF1-11EE42EDEEED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order.Messaging.RabbitMQ", "Order.Messaging.RabbitMQ\Order.Messaging.RabbitMQ.csproj", "{C40D11DC-94A5-4E7B-9372-78022D441DEA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +67,14 @@ Global
 		{39CA91E6-1480-4401-972F-6955ACA32523}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39CA91E6-1480-4401-972F-6955ACA32523}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39CA91E6-1480-4401-972F-6955ACA32523}.Release|Any CPU.Build.0 = Release|Any CPU
+		{651AC809-897E-476C-AEF1-11EE42EDEEED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{651AC809-897E-476C-AEF1-11EE42EDEEED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{651AC809-897E-476C-AEF1-11EE42EDEEED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{651AC809-897E-476C-AEF1-11EE42EDEEED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C40D11DC-94A5-4E7B-9372-78022D441DEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C40D11DC-94A5-4E7B-9372-78022D441DEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C40D11DC-94A5-4E7B-9372-78022D441DEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C40D11DC-94A5-4E7B-9372-78022D441DEA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
