@@ -8,7 +8,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Inventory.Application.Contracts\Inventory.Application.Contracts.csproj" />
-        <ProjectReference Include="..\Inventory.Data.Sql\Inventory.Data.Sql.csproj" />
+        <ProjectReference Include="..\Inventory.Data.Contracts\Inventory.Data.Contracts.csproj" />
     </ItemGroup>
 
     <ItemGroup>

@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Inventory.Data.Sql\Inventory.Data.Sql.csproj" />
+      <ProjectReference Include="..\Inventory.Data.Contracts\Inventory.Data.Contracts.csproj" />
       <ProjectReference Include="..\Inventory.Grpc.Contracts\Inventory.Grpc.Contracts.csproj" />
     </ItemGroup>
 
