@@ -17,6 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Order.Application\Order.Application.csproj" />
     <ProjectReference Include="..\Order.Data.Sql\Order.Data.Sql.csproj" />
+    <ProjectReference Include="..\Order.Messaging.RabbitMQ\Order.Messaging.RabbitMQ.csproj" />
     <ProjectReference Include="..\Order.Rest.AspNetCore\Order.Rest.AspNetCore.csproj" />
     <ProjectReference Include="..\Order.Grpc.AspNetCore\Order.Grpc.AspNetCore.csproj" />
   </ItemGroup>

@@ -25,4 +25,6 @@ public enum ErrorCodes
     PRODUCT_NOT_FOUND,
     
     NOT_ENOUGH_STOCK,
+    
+    RABBITMQ_FAILED_SENDING_MESSAGE
 }

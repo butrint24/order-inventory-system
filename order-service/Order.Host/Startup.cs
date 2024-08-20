@@ -1,6 +1,7 @@
 ﻿using Order.Application;
 using Order.Data.Sql;
 using Order.Grpc.AspNetCore;
+using Order.Messaging.RabbitMQ;
 using Order.Rest.AspNetCore;
 
 namespace Order.Host;
@@ -21,6 +22,7 @@ public class Startup
         services.AddApplicationModule();
         services.AddRestModule();
         services.AddGrpcModule();
+        services.AddRabbitMqModule();
     }
         
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
