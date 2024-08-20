@@ -14,10 +14,10 @@ using Order.Rest.Contracts.Purchase.GetPurchases;
 namespace Order.Rest.AspNetCore;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/order/[controller]")]
 public class PurchaseController(IMediator mediator, IMapper mapper) : ControllerBase
 {
-    [HttpPost("/createPurchase")]
+    [HttpPost("createPurchase")]
     public async Task<ActionResult<CreatePurchaseResponse>> CreateUserAsync(CreatePurchaseRequest request)
     {
         var command = mapper.Map<CreateOrder>(request);
@@ -32,7 +32,7 @@ public class PurchaseController(IMediator mediator, IMapper mapper) : Controller
         return Ok(response);
     }
     
-    [HttpGet("/getPurchases")]
+    [HttpGet("getPurchases")]
     public async Task<ActionResult<GetPurchasesResponse>> GetUsersAsync()
     {
         var result = await mediator.Send(new GetOrders());
@@ -42,7 +42,7 @@ public class PurchaseController(IMediator mediator, IMapper mapper) : Controller
         return Ok(response);
     }
     
-    [HttpGet("/getPurchase/{id}")]
+    [HttpGet("getPurchase/{id}")]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     public async Task<ActionResult<GetPurchasesResponse>> GetPurchaseByIdAsync([FromRoute] Guid id)
@@ -62,7 +62,7 @@ public class PurchaseController(IMediator mediator, IMapper mapper) : Controller
         return Ok(response);
     }
     
-    [HttpDelete("/deletePurchase/{id}")]
+    [HttpDelete("deletePurchase/{id}")]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
     public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
