@@ -1,6 +1,7 @@
 ﻿using Inventory.Application;
 using Inventory.Data.Sql;
 using Inventory.Grpc.AspNetCore;
+using Inventory.Messaging.RabbitMQ;
 using Inventory.Rest.AspNetCore;
 
 namespace Inventory.Host;
@@ -21,6 +22,7 @@ public class Startup
         services.AddApplicationModule();
         services.AddRestModule();
         services.AddGrpcModule();
+        services.AddRabbitMqModule();
     }
         
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
