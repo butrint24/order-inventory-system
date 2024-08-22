@@ -20,7 +20,7 @@
 6. [gRPC Communication](#grpc-communication)
     - [ProductService Client](#productservice-client)
 7. [Message Queue Communication](#message-queue-communication)
-8. [Best Practices and Preferences](#best-practices-and-preferences)
+8. [Best Practices and Preferences](#best-practices-and-preferences) 
 
 ## Project Overview
 
