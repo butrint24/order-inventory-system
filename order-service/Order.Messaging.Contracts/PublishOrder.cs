@@ -1,6 +1,6 @@
 ﻿namespace Order.Messaging.Contracts;
 
-public class OrderCreated
+public class PublishOrder
 {
     public Guid OrderId { get; set; }
 

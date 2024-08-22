@@ -39,9 +39,9 @@ public class MessageBusClient : IMessageBusClient
         }
     }
     
-    public void PublishOrder(OrderCreated orderCreated)
+    public void PublishOrder(PublishOrder publishOrder)
     {
-        var orderCreatedMessage = JsonSerializer.Serialize(orderCreated);
+        var orderCreatedMessage = JsonSerializer.Serialize(publishOrder);
         
         if (_connection.IsOpen)
         {

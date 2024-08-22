@@ -54,7 +54,7 @@ public class MappingRegister : Profile
         CreateMap<Data.Contracts.Order, DeleteOrderResponse>()
             .ReverseMap();
         
-        CreateMap<Data.Contracts.Order, OrderCreated>();
+        CreateMap<Data.Contracts.Order, PublishOrder>();
         
         #endregion
     }
