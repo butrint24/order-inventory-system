@@ -89,7 +89,7 @@ public class CreateOrderHandler : IRequestHandler<CreateOrder, Result<CreateOrde
     {
         try
         {
-            var publishMessage = _mapper.Map<OrderCreated>(order);
+            var publishMessage = _mapper.Map<PublishOrder>(order);
 
             publishMessage.Event = Event.Order_Created.ToString();
             

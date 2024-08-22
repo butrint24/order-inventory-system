@@ -42,11 +42,14 @@ public class GetOrdersHandler : IRequestHandler<GetOrders, Result<IList<Contract
         {
             var productDetails = _productDataClient.GetProduct(@order.ProductId.ToString());
 
-            order.ProductInfo = new ProductInfo
+            if (productDetails != null)
             {
-                Name = productDetails.Name,
-                Details = productDetails.Details
-            };
+                order.ProductInfo = new ProductInfo
+                {
+                    Name = productDetails.Name,
+                    Details = productDetails.Details
+                };
+            }
         }
         
         return Ok(result);

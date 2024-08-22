@@ -2,5 +2,5 @@
 
 public interface IMessageBusClient
 {
-    void PublishOrder(OrderCreated orderCreated);
+    void PublishOrder(PublishOrder publishOrder);
 }
